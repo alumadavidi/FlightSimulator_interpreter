@@ -5,38 +5,49 @@
 #include "Parser.h"
 //parser the file txt to commands
 void Parser::parser(string& fileName) {
-    int index = 0, addToCounter = 0;
     Lexer lexer;
     vector<string> spliteToken;
     //init the spliteToken with vector string of words from file
     lexer.lexerTheFile(&spliteToken, fileName);
+   parserByTokens(spliteToken);
+}
+void Parser::parserByTokens(vector<string> &spliteToken) {
+    int index = 0, addToCounter = 0;
     command* c;
     if(spliteToken.size() > 0) {
         vector<string>::iterator it = spliteToken.begin();
-        while (index < spliteToken.size()) {
+        while (it != spliteToken.end()) {
             if(command::_commandsMap->find(*it) != command::_commandsMap->end()){
                 //get command
                 c = command::_commandsMap->find(*it)->second;
-                index += c->execute(it);
+                index = c->execute(it);
             } else {
                 //from type variable = num
                 addToCounter = updateVar(it);
+                //function call
                 if (addToCounter == 0) {
-                    //from type func
-                    //TODO c is funcCommand
+                    //vector<command> commands = command::_funcsMap->find(*it)->second;
+                    //for ()
                 }
-                index += addToCounter;
+                index = addToCounter;
             }
             it += index;
-            index = 0;
-            command::counter = 0;
         }
     }
 }
+
+
+
+
+
 //update value of variable that exist is progMap
 int Parser::updateVar(vector<string>::iterator it) {
+    vector<string>::iterator copyIt = it;
     unordered_map<string, variableAir>::iterator iter;
     float num;
+    if(*(++copyIt) != "=") {
+        return 0;
+    }
     string key = *it;
     variableAir *var;
     ++it; //erase var

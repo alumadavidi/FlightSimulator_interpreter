@@ -38,7 +38,6 @@ void OpenServerCommand::serverRead() {
 }
 
 void OpenServerCommand::openSocketServer() {
-
     //create socket
     int socketfd = socket(AF_INET, SOCK_STREAM, 0);
     if (socketfd == -1) {
@@ -169,54 +168,38 @@ int DefineVarCommand::execute(vector<string>::iterator it) {
     return counterFunc;
 }
 int LoopCommand::execute(vector<string>::iterator it) {
-    int i = 0;
+    Parser parser;
     init(it); //shared code to loop and if
-    for (i; i < counter + 1; i++) { //+1 to {
-        it++;
-    }
+    it += counter;
     _inCommands = getInsideCommend(it); // get the inside of the loop to new vector
-    it +=2;
-    i += 2;
     while(getCondition(_firstExp,_op,_secondExp)){
         vector<string> copyInCommands = _inCommands;//any time init the copy
-
-        //TODO problem in pointer iter!
-
-        auto iter = copyInCommands.begin();
-        while(iter != copyInCommands.end()) {
-            auto c = _commandsMap->at(*iter);
-            counter += c->execute(it);
-            iter++;
-            for (i; i < counter; i++) {
-                it++;
-            }
-        }
+        parser.parserByTokens(copyInCommands);
     }
+    return counter;
 }
 int IfCommand::execute(vector<string>::iterator it) {
-    init(it); //shared code to loop and if (what do you say about it?)
+    Parser parser;
+    init(it); //shared code to loop and if
+    it += counter;
     _inCommands = getInsideCommend(it); // get the inside of the loop to new vector
-
-    //TODO problem in pointer iter!
-
     if(getCondition(_firstExp,_op,_secondExp)){
-        auto iter = _inCommands.begin();
-        while(iter != _inCommands.end()) {
-            auto c = _commandsMap->at(*iter);
-            c->execute(it);
-            iter++;
+        vector<string> copyInCommands = _inCommands;//any time init the copy
+        auto iter = copyInCommands.begin();
+        while(iter != copyInCommands.end()) {
+            parser.parserByTokens(copyInCommands);
         }
     }
 }
 int FuncCommand::execute(vector<string>::iterator it) { //for funcion
-    //TODO write the method
+    string funcName = *it;
     ++it;
-    // _copyInput->erase(_copyInput->begin());
-    _inCommands = getInsideCommend(it); // get the inside of the loop to new vector
+    vector<string> inCommand = getInsideCommend(it);
+     // get the inside of the loop to new vector
+    _funcsMap->insert({funcName, &inCommand});
 }
 int Print::execute(vector<string>::iterator it) {
     ++it;
-    counter++;
     string toPrint = *it;
     if(toPrint[0] == '"'){ // string
         cout << toPrint << endl;
@@ -228,38 +211,30 @@ int Print::execute(vector<string>::iterator it) {
             cout << var->getValue() << endl;
         }
     }
-
-    ++it;
-    counter++;
-    return counter;
+    it++;
+    return 2;
 }
 int Sleep::execute(vector<string>::iterator it) {
     ++it;
-    //    _copyInput->erase(_copyInput->begin());
     string timeS = *(it);
     std::string::size_type sz;   // convert string to long
     long time = std::stol (timeS,&sz);
     //TODO sleep for x miliseconds
     ++it;
-//    _copyInput->erase(_copyInput->begin());
     return 2;
 }
 void ConditionParser::init(vector<string>::iterator it) {
-    ++it;
-//    _copyInput->erase(_copyInput->begin());//for command
+    it++;
     _firstExp = *it;
-    ++it;
-//    _copyInput->erase(_copyInput->begin());
+    it++;
     _op = *it;
-    ++it;
-//    _copyInput->erase(_copyInput->begin());
+    it++;
     _secondExp = *it;
-    ++it;
-//    _copyInput->erase(_copyInput->begin());
+    it++;
     counter += 4;
 }
 //the function return the inside commands and erase them from the copy (assume validness)
-vector<string> holdCommands::getInsideCommend(vector<string>::iterator it) {
+vector<string> holdCommands::getInsideCommend(vector<string>::iterator& it) {
     vector<string> result;
     int leftCounter = 0;
     int rightCounter = 0;
@@ -269,20 +244,23 @@ vector<string> holdCommands::getInsideCommend(vector<string>::iterator it) {
             break;
         } else if (*it == "{") {
             leftCounter++;
+            if (leftCounter == 1) {
+                it++;
+                counter++;
+                continue;
+            }
         } else if (*it == "}") {
             rightCounter++;
         }
         result.push_back(*it); //add string to the new vector
-        ++it;
-//        _copyInput->erase(it); //erase it from src
         counter++;
         it++;
     }
+    if(!result.empty())
+        result.pop_back(); //for "}"
     return result;
 }
 bool ConditionParser::getCondition(string first, string op, string second) {
-//    bool firstIsVar = false;
-//    bool secondIsVar = false;
     bool result = false;
     if(op == ">") {
          result = Parser::generalShuntingAlgorithem(first) > Parser::generalShuntingAlgorithem(second);
@@ -298,4 +276,11 @@ bool ConditionParser::getCondition(string first, string op, string second) {
         result = Parser::generalShuntingAlgorithem(first) != Parser::generalShuntingAlgorithem(second);
     }
     return result;
+}
+int activateFunc::execute(vector<string>::iterator it) {
+    vector<string>* inCommands =command::_funcsMap->find(*it)->second;
+    it++;
+    int var = stod(*it);
+    Parser parser;
+    parser.parserByTokens(*inCommands);
 }

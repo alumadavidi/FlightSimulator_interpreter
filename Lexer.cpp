@@ -86,7 +86,11 @@ void Lexer::spliteLineToToken(vector<string>* wordsToken, string& lineToRead){
             if(lineToRead[i+1] == ' '){
                 i++;
             }
-            word = lineToRead.substr(i+1, lineToRead.length());
+            if(lineToRead.at(lineToRead.length() - 1) == '\r') {  //for windows
+                word = lineToRead.substr(i + 1, lineToRead.length() - 1 -  (i + 1));
+            } else {
+                word = lineToRead.substr(i + 1, lineToRead.length() - (i + 1));
+            }
             //check if there { at end of line
             openbracketTreatment(word, wordsToken);
             word = "";

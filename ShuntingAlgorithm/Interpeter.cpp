@@ -82,8 +82,8 @@ void Interpreter::spliteToToken(string expression) {
             if(newToken.length() > 0){
                 this->tokens.push_back(newToken);
             }
-
         }
+
         insertOperator = false;
     }
     //replace value name in value double - map

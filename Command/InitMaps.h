@@ -12,5 +12,6 @@ public:
     void initCommandsMap();
     void initSimTable();
     void initProgTable();
+    void initfuncTable();
 };
 #endif //UNTITLED11_INITMAPS_H

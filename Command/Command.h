@@ -14,11 +14,11 @@ using namespace std;
 class command {
 
 public:
-    static int counter;
     static vector<string>* _copyInput; //copy of the vector
     static unordered_map<string, variableAir>* _progTable; //program vars
     static unordered_map<string, variableAir>* _simTable; //flight sim vars
     static unordered_map<string, command*>* _commandsMap;
+    static unordered_map<string, vector<string>*>* _funcsMap;
 
     virtual int execute(vector<string>::iterator) = 0;
     virtual ~command() {}

@@ -20,8 +20,9 @@
 #include "../Parser.h"
 class holdCommands : public command { //should to be abstract?
 protected:
+    int counter;
     vector<string> _inCommands;
-    vector<string> getInsideCommend(vector<string>::iterator it);
+    vector<string> getInsideCommend(vector<string>::iterator& it);
 };
 class OpenServerCommand : public command {
     thread serverThread;
@@ -91,6 +92,11 @@ public:
 };
 
 class Sleep : public command {
+public:
+    virtual int execute(vector<string>::iterator);
+};
+
+class activateFunc : public FuncCommand {
 public:
     virtual int execute(vector<string>::iterator);
 };

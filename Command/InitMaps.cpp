@@ -23,3 +23,6 @@ void InitMap::initProgTable() {
 void InitMap::initSimTable() {
     command::_simTable = new unordered_map<string, variableAir>();
 }
+void InitMap::initfuncTable() {
+    command::_funcsMap = new unordered_map<string, vector<string>*>();
+}

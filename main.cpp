@@ -1,12 +1,12 @@
 #include "ProgramInclude.h"
-int command::counter = 0;
 vector<string>* command::_copyInput = 0;
 unordered_map<string, variableAir>* command::_progTable = 0;
 unordered_map<string, variableAir>* command::_simTable;
 unordered_map<string, command*>* command::_commandsMap;
+unordered_map<string, vector<string>*>* command::_funcsMap;
+
 
 int main(int argc, char **argv) {
-    command::counter = 0;
     Parser parser;
     vector<string> wordsToken = {"openDataServer", "5400", "connectControlClient","\"127.0.0.1\""};
     if(argc > 1){
