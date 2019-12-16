@@ -10,7 +10,7 @@
 #include <string>
 using namespace std;
 
-class variableAir :Expression{
+class variableAir :Expression {
 private:
     float _value;
     string _sim;

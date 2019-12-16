@@ -45,7 +45,8 @@ void Lexer::spliteLineToToken(vector<string>* wordsToken, string& lineToRead){
         }
             // add prev word and splite by ) space and ,
         else if((lineToRead[i] == ')') || ((lineToRead[i] == ' '))
-                || (lineToRead[i] == ',') || (lineToRead[i] == '\t')){
+                || (lineToRead[i] == ',') || (lineToRead[i] == '\t')
+                || lineToRead[i] == '\r'){
             addWordToVector(word, wordsToken);
         }
             // find -> or <- or !=
