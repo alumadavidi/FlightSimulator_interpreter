@@ -12,8 +12,7 @@
 using namespace std;
 
 class command {
-/*protected:
-    int counter = 0;*/
+
 public:
     static int counter;
     static vector<string>* _copyInput; //copy of the vector

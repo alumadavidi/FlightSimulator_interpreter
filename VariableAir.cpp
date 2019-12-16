@@ -4,14 +4,7 @@
 
 #include "VariableAir.h"
 variableAir::variableAir(string sim, string direction) {
-    if(direction.compare("->") == 0) {
-        this->_direction = "progToSim";
-    } else if( direction.compare("<-") == 0 ){          //if(direction == "<-")
-        this->_direction = "simToProg";
-    } else { // direction == "="
-        this->_direction = "progToProg";
-    }
-//    this->_direction = direction;
+    this->_direction = direction;
     this->_sim = sim;
 }
 void variableAir::setValue(float value) {

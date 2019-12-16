@@ -5,7 +5,7 @@
 #include "Parser.h"
 //parser the file txt to commands
 void Parser::parser(string& fileName) {
-    int index = 0, i = 0, addToCounter = 0;
+    int index = 0, addToCounter = 0;
     Lexer lexer;
     vector<string> spliteToken;
     //init the spliteToken with vector string of words from file
@@ -27,9 +27,8 @@ void Parser::parser(string& fileName) {
                 }
                 index += addToCounter;
             }
-            for (i; i < index; i++) {
-                it++;
-            }
+            it += index;
+            index = 0;
             command::counter = 0;
         }
     }
