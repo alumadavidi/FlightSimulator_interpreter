@@ -18,10 +18,11 @@ public:
     static unordered_map<string, variableAir>* _progTable; //program vars
     static unordered_map<string, variableAir>* _simTable; //flight sim vars
     static unordered_map<string, command*>* _commandsMap;
-    static unordered_map<string, vector<string>*>* _funcsMap;
+    static unordered_map<string, pair<string,vector<string>*>>* _funcsMap;
+    static vector<string>::iterator it;
     static unordered_map<string, float >* _generalSimVariable;
 
-    virtual int execute(vector<string>::iterator) = 0;
+    virtual int execute() = 0;
     virtual ~command() {}
 };
 #endif //UNTITLED11_COMMAND_H

@@ -13,17 +13,18 @@ void Parser::parser(string& fileName) {
 }
 void Parser::parserByTokens(vector<string> &spliteToken) {
     int index = 0, addToCounter = 0;
+    command::it = spliteToken.begin();
     command* c;
     if(spliteToken.size() > 0) {
-        vector<string>::iterator it = spliteToken.begin();
-        while (it != spliteToken.end()) {
-            if(command::_commandsMap->find(*it) != command::_commandsMap->end()){
+        vector<string>::iterator copyIter = spliteToken.begin();
+        while (copyIter != spliteToken.end()) {
+            if(command::_commandsMap->find(*copyIter) != command::_commandsMap->end()){
                 //get command
-                c = command::_commandsMap->find(*it)->second;
-                index = c->execute(it);
+                c = command::_commandsMap->find(*copyIter)->second;
+                index = c->execute();
             } else {
                 //from type variable = num
-                addToCounter = updateVar(it);
+                addToCounter = updateVar();
                 //function call
                 if (addToCounter == 0) {
                     //vector<command> commands = command::_funcsMap->find(*it)->second;
@@ -31,7 +32,7 @@ void Parser::parserByTokens(vector<string> &spliteToken) {
                 }
                 index = addToCounter;
             }
-            it += index;
+            copyIter += index;
         }
     }
 }
@@ -41,22 +42,23 @@ void Parser::parserByTokens(vector<string> &spliteToken) {
 
 
 //update value of variable that exist is progMap
-int Parser::updateVar(vector<string>::iterator it) {
-    vector<string>::iterator copyIt = it;
+int Parser::updateVar() {
+    vector<string>::iterator copyIt = command::it;
     unordered_map<string, variableAir>::iterator iter;
-    float num;
     if(*(++copyIt) != "=") {
         return 0;
     }
-    string key = *it;
+    string key = *command::it;
     variableAir *var;
-    ++it; //erase var
-    ++it;//erase sign
-    string left = *it;
+    command::it++; //erase var
+    command::it++;//erase sign
+    string left = *command::it;
+    command::it++;
     //update the value
     updateValueInShuntingAlgo(left, key);
     return 3;
 }
+
 //update value of variable air according shunting yard algo
 void Parser::updateValueInShuntingAlgo(const string & variable,const string & key) {
     unordered_map<string, variableAir>::iterator iter;
@@ -68,6 +70,7 @@ void Parser::updateValueInShuntingAlgo(const string & variable,const string & ke
     //get the result
     num = generalShuntingAlgorithem(variable);
     var->setValue(num);
+    //TODO control client
 }
 //general method to get num of variables
 float Parser::generalShuntingAlgorithem(const string& variable) {

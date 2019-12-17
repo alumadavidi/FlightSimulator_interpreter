@@ -12,7 +12,7 @@ class Parser {
 public:
     void parser(string&);
     void parserByTokens(vector<string>& tokens);
-    int updateVar(vector<string>::iterator);
+    int updateVar();
     static float generalShuntingAlgorithem(const string&);
     static void updateValueInShuntingAlgo(const string&, const string&);
 };

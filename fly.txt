@@ -1,5 +1,3 @@
-openDataServer(5400)
-connectControlClient("127.0.0.1,5402)
 var warp -> sim("/sim/time/warp")
 var magnetos -> sim("/controls/switches/magnetos")
 var throttle -> sim("/controls/engines/current-engine/throttle")
@@ -41,6 +39,7 @@ var h0 = heading
 breaks = 200
 pitch = 100
 throttle = 1
+Print("done")
 while breaks < 1000 {
 	rudder = (primer - heading)/80
 	aileron = -warp / 70

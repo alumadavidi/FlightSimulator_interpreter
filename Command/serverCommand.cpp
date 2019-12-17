@@ -3,7 +3,7 @@
 //
 
 #include "serverCommand.h"
-int OpenServerCommand::execute(vector<string>::iterator it) {
+int OpenServerCommand::execute() {
     ++it;
     _port = stoi(*it);
     ++it;

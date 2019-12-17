@@ -19,16 +19,12 @@ class holdCommands : public command { //should to be abstract?
 protected:
     int counter;
     vector<string> _inCommands;
-    vector<string> getInsideCommend(vector<string>::iterator& it);
+    vector<string> getInsideCommend();
 };
-
-
-
-
 
 class DefineVarCommand : public command {
 public:
-    virtual int execute(vector<string>::iterator);
+    virtual int execute();
 };
 
 class ConditionParser : public holdCommands {
@@ -36,7 +32,7 @@ protected:
     string _firstExp;
     string _op;
     string _secondExp;
-    void init(vector<string>::iterator);
+    void init();
     bool getCondition(string first, string op, string second);
 /*public:
     virtual int execute();*/
@@ -44,32 +40,35 @@ protected:
 
 class IfCommand : public ConditionParser {
 public:
-    virtual int execute(vector<string>::iterator);
+    virtual int execute();
 };
 
 class LoopCommand : public ConditionParser {
 public:
-    virtual int execute(vector<string>::iterator);
+    virtual int execute();
 };
 
 class FuncCommand : public holdCommands {
+protected:
+    string _localVar;
     vector<string> params;
 public:
-    virtual int execute(vector<string>::iterator);
+    virtual int execute();
+    void activateFunc();
 };
 
 class Print : public command {
 public:
-    virtual int execute(vector<string>::iterator);
+    virtual int execute();
 };
 
 class Sleep : public command {
 public:
-    virtual int execute(vector<string>::iterator);
+    virtual int execute();
 };
 
 class activateFunc : public FuncCommand {
 public:
-    virtual int execute(vector<string>::iterator);
+    virtual int execute();
 };
 #endif //UNTITLED11_COMMANDSCLASSES_H

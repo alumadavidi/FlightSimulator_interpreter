@@ -19,7 +19,7 @@ class OpenServerCommand : public command {
     int client_socket;
     int socketfd;
 public:
-    virtual int execute(vector<string>::iterator);
+    virtual int execute();
     void openSocketServer();
     void startTherad();
     void serverRead();

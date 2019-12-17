@@ -6,71 +6,68 @@
 #include <cstring>
 #include "stdlib.h"
 
-//#include "../VariableAir.h"
-//#include "Command.h"
 using namespace std;
-
-
-
-
-int DefineVarCommand::execute(vector<string>::iterator it) {
+int DefineVarCommand::execute() {
     int counterFunc;
     string sim = "", left = "";
-
     ++it;//for command
     string key = *it;
     ++it;
     string direction = *(it);
     if(direction.compare("=") == 0){ // var x = y
-       ++it;
+       it++;
        left = *it;
+       it++;
        counterFunc = 4;
     } else { //var x -> sim("")
         it += 2;
         sim = *it;
-        counterFunc = 5;
         ++it;
+        counterFunc = 5;
     }
     variableAir newVar = variableAir(sim, direction);
     _progTable->insert({key, newVar});  ///check the map
     if(left.size() > 0) { // first opetion var x = y
         Parser::updateValueInShuntingAlgo(left, key);
     }
-
     return counterFunc;
 }
-int LoopCommand::execute(vector<string>::iterator it) {
+int LoopCommand::execute() {
     Parser parser;
-    init(it); //shared code to loop and if
-    it += counter;
-    _inCommands = getInsideCommend(it); // get the inside of the loop to new vector
+    init(); //shared code to loop and if
+    _inCommands = getInsideCommend(); // get the inside of the loop to new vector
+    vector<string>::iterator temp = command::it;
     while(getCondition(_firstExp,_op,_secondExp)){
         vector<string> copyInCommands = _inCommands;//any time init the copy
         parser.parserByTokens(copyInCommands);
     }
+    command::it = temp;
     return counter;
 }
-int IfCommand::execute(vector<string>::iterator it) {
+int IfCommand::execute() {
     Parser parser;
-    init(it); //shared code to loop and if
-    it += counter;
-    _inCommands = getInsideCommend(it); // get the inside of the loop to new vector
+    init(); //shared code to loop and if
+    _inCommands = getInsideCommend(); // get the inside of the loop to new vector
+    vector<string>::iterator temp = command::it;
     if(getCondition(_firstExp,_op,_secondExp)){
         vector<string> copyInCommands = _inCommands;//any time init the copy
-        auto iter = copyInCommands.begin();
-        while(iter != copyInCommands.end()) {
-            parser.parserByTokens(copyInCommands);
-        }
+        parser.parserByTokens(copyInCommands);
     }
+    command::it = temp;
+    return counter;
 }
-int FuncCommand::execute(vector<string>::iterator it) { //for funcion
+int FuncCommand::execute() { //for funcion
     string funcName = *it;
-    ++it;
-    vector<string> inCommand = getInsideCommend(it);
+    ++it;//func name
+    ++it;//for var
+    string key = *it;
+    it++;
+    counter = 3;
+    vector<string> inCommand = getInsideCommend();
      // get the inside of the loop to new vector
-    _funcsMap->insert({funcName, &inCommand});
+    //_funcsMap->insert({funcName, &inCommand{;});
 }
-int Print::execute(vector<string>::iterator it) {
+int Print::execute() {
     ++it;
     string toPrint = *it;
     if(toPrint[0] == '"'){ // string
@@ -86,7 +83,7 @@ int Print::execute(vector<string>::iterator it) {
     it++;
     return 2;
 }
-int Sleep::execute(vector<string>::iterator it) {
+int Sleep::execute() {
     ++it;
     string timeS = *(it);
     std::string::size_type sz;   // convert string to long
@@ -95,7 +92,7 @@ int Sleep::execute(vector<string>::iterator it) {
     ++it;
     return 2;
 }
-void ConditionParser::init(vector<string>::iterator it) {
+void ConditionParser::init() {
     it++;
     _firstExp = *it;
     it++;
@@ -106,18 +103,16 @@ void ConditionParser::init(vector<string>::iterator it) {
     counter += 4;
 }
 //the function return the inside commands and erase them from the copy (assume validness)
-vector<string> holdCommands::getInsideCommend(vector<string>::iterator& it) {
+vector<string> holdCommands::getInsideCommend() {
     vector<string> result;
     int leftCounter = 0;
     int rightCounter = 0;
-    auto iter = it->begin();
     while(it->begin()!= it->end()) {
         if ((leftCounter == rightCounter) && leftCounter != 0) {
             break;
         } else if (*it == "{") {
             leftCounter++;
             if (leftCounter == 1) {
-                it++;
                 counter++;
                 continue;
             }
@@ -149,10 +144,20 @@ bool ConditionParser::getCondition(string first, string op, string second) {
     }
     return result;
 }
-int activateFunc::execute(vector<string>::iterator it) {
-    vector<string>* inCommands =command::_funcsMap->find(*it)->second;
-    it++;
-    int var = stod(*it);
+int activateFunc::execute() {
     Parser parser;
-    parser.parserByTokens(*inCommands);
+    vector<string> inCommands = *command::_funcsMap->find(*it)->second.second;
+    string key = command::_funcsMap->find(*it)->second.first;
+    it++;
+    variableAir localVar = variableAir("", "");
+    string paramVal = *it;
+    _progTable->insert({key, localVar});
+    parser.updateValueInShuntingAlgo(key, paramVal);
+    it++;
+    vector<string>::iterator tempIt = it;
+    parser.parserByTokens(inCommands);
+    _progTable->erase(key);
+    it = tempIt;
+    return 2;
+    //TODO check the parameters
 }

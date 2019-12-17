@@ -12,7 +12,7 @@ ConnectCommand::~ConnectCommand() {
 void ConnectCommand::startTherad() {
     clientThread = thread(&ConnectCommand::writeClient, this);
 }
-int ConnectCommand::execute(vector<string>::iterator it) {
+int ConnectCommand::execute() {
     cout<<"enter to connect client"<<endl;
     ++it;
     _ip = (*it).c_str();

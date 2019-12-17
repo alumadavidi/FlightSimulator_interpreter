@@ -20,7 +20,7 @@ class ConnectCommand : public command {
     const char *_ip;
     int clientSocket;
 public:
-    virtual int execute(vector<string>::iterator);
+    virtual int execute();
     void openSocketClient();
     void writeClient();
     void startTherad();

@@ -3,10 +3,12 @@
 //
 
 #include "InitMaps.h"
+#include "serverCommand.h"
+#include "ClientCommand.h"
+
 //initalize the map with the command object
 void InitMap::initCommandsMap() {
     command::_commandsMap = new unordered_map<string, command*>();
-
     command::_commandsMap->insert({"openDataServer",new OpenServerCommand()});
     command::_commandsMap->insert({"connectControlClient",new ConnectCommand()});
     command::_commandsMap->insert({"var",new DefineVarCommand()});
@@ -24,12 +26,12 @@ void InitMap::initSimTable() {
     command::_simTable = new unordered_map<string, variableAir>();
 }
 void InitMap::initfuncTable() {
-    command::_funcsMap = new unordered_map<string, vector<string>*>();
+    command::_funcsMap = new unordered_map<string, pair<string,vector<string>*>>();
 }
 void InitMap::initGeneralSimVariable() {
     command::_generalSimVariable = new unordered_map<string, float>();
-    command::_commandsMap->insert({"airspeed-indicator_indicated-speed-kt",0});
-    command::_commandsMap->insert({"heading-indicator_offset-deg",0});
+    command::_generalSimVariable->insert({"airspeed-indicator_indicated-speed-kt",0});
+    command::_generalSimVariable->insert({"heading-indicator_offset-deg",0});
     command::_commandsMap->insert({"altimeter_indicated-altitude-ft",0});
     command::_commandsMap->insert({"altimeter_pressure-alt-ft",0});
     command::_commandsMap->insert({"attitude-indicator_indicated-pitch-deg",0});
@@ -52,14 +54,11 @@ void InitMap::initGeneralSimVariable() {
     command::_commandsMap->insert({"flight_flaps",0});
     command::_commandsMap->insert({"engine_throttle",0});
     command::_commandsMap->insert({"engine_rpm",0});
-
-
-
-
 }
 void InitMap::initalizeAllMaps() {
-    initGeneralSimVariable();
+    //initGeneralSimVariable();
     initfuncTable();
     initSimTable();
     initProgTable();
+    initCommandsMap();
 }
