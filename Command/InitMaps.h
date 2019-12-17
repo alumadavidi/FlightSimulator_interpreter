@@ -14,6 +14,13 @@ public:
     void initSimTable();
     void initProgTable();
     void initfuncTable();
+
+
     void initGeneralSimVariable();
 };
+
+
+
+
+
 #endif //UNTITLED11_INITMAPS_H
