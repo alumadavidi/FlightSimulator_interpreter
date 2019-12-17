@@ -1,9 +1,10 @@
 #include "ProgramInclude.h"
-vector<string>* command::_copyInput = 0;
+//vector<string>* command::_copyInput = 0;
 unordered_map<string, variableAir>* command::_progTable = 0;
 unordered_map<string, variableAir>* command::_simTable;
 unordered_map<string, command*>* command::_commandsMap;
 unordered_map<string, vector<string>*>* command::_funcsMap;
+unordered_map<string,float>* command::_generalSimVariable;
 
 
 int main(int argc, char **argv) {
@@ -12,9 +13,7 @@ int main(int argc, char **argv) {
     if(argc > 1){
         string fileName = argv[1];
         InitMap initalizeMap;
-        initalizeMap.initCommandsMap();
-        initalizeMap.initProgTable();
-        initalizeMap.initSimTable();
+        initalizeMap.initalizeAllMaps();
         try {
             parser.parser(fileName);
         } catch (const char* e) {

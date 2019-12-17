@@ -26,3 +26,40 @@ void InitMap::initSimTable() {
 void InitMap::initfuncTable() {
     command::_funcsMap = new unordered_map<string, vector<string>*>();
 }
+void InitMap::initGeneralSimVariable() {
+    command::_generalSimVariable = new unordered_map<string, float>();
+    command::_commandsMap->insert({"airspeed-indicator_indicated-speed-kt",0});
+    command::_commandsMap->insert({"heading-indicator_offset-deg",0});
+    command::_commandsMap->insert({"altimeter_indicated-altitude-ft",0});
+    command::_commandsMap->insert({"altimeter_pressure-alt-ft",0});
+    command::_commandsMap->insert({"attitude-indicator_indicated-pitch-deg",0});
+    command::_commandsMap->insert({"attitude-indicator_indicated-roll-deg",0});
+    command::_commandsMap->insert({"attitude-indicator_internal-pitch-deg",0});
+    command::_commandsMap->insert({"attitude-indicator_internal-roll-deg",0});
+    command::_commandsMap->insert({"encoder_indicated-altitude-ft",0});
+    command::_commandsMap->insert({"encoder_pressure-alt-ft",0});
+    command::_commandsMap->insert({"gps_indicated-altitude-ft",0});
+    command::_commandsMap->insert({"gps_indicated-ground-speed-kt",0});
+    command::_commandsMap->insert({"gps_indicated-vertical-speed",0});
+    command::_commandsMap->insert({"indicated-heading-deg",0});
+    command::_commandsMap->insert({"magnetic-compass_indicated-heading-deg",0});
+    command::_commandsMap->insert({"slip-skid-ball_indicated-slip-skid",0});
+    command::_commandsMap->insert({"turn-indicator_indicated-turn-rate",0});
+    command::_commandsMap->insert({"vertical-speed-indicator_indicated-speed-fpm",0});
+    command::_commandsMap->insert({"flight_aileron",0});
+    command::_commandsMap->insert({"flight_elevator",0});
+    command::_commandsMap->insert({"flight_rudder",0});
+    command::_commandsMap->insert({"flight_flaps",0});
+    command::_commandsMap->insert({"engine_throttle",0});
+    command::_commandsMap->insert({"engine_rpm",0});
+
+
+
+
+}
+void InitMap::initalizeAllMaps() {
+    initGeneralSimVariable();
+    initfuncTable();
+    initSimTable();
+    initProgTable();
+}

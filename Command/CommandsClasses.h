@@ -7,14 +7,11 @@
 #include <vector>
 #include <iostream>
 #include "Command.h"
-#include <unistd.h>
-#include <netinet/in.h>
 #include <arpa/inet.h>
 #include <thread>
 #include <string>
 #include <sys/socket.h>
 #include <string>
-#include <iostream>
 #include <unistd.h>
 #include <netinet/in.h>
 #include "../Parser.h"
@@ -24,35 +21,10 @@ protected:
     vector<string> _inCommands;
     vector<string> getInsideCommend(vector<string>::iterator& it);
 };
-class OpenServerCommand : public command {
-    thread serverThread;
-    int _port;
-    int client_socket;
-    int socketfd;
-public:
-    virtual int execute(vector<string>::iterator);
-    void openSocketServer();
-    void startTherad();
-    void serverRead();
-    OpenServerCommand(): serverThread() {};
-    ~OpenServerCommand();
-};
 
 
-class ConnectCommand : public command {
-    thread clientThread;
-    int _port;
-    const char *_ip;
-    int clientSocket;
-public:
-    virtual int execute(vector<string>::iterator);
-    void openSocketClient();
-    void writeClient();
-    void startTherad();
-    ConnectCommand(): clientThread(){};
-    ~ConnectCommand();
 
-};
+
 
 class DefineVarCommand : public command {
 public:

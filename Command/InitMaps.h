@@ -9,9 +9,11 @@
 #include "CommandsClasses.h"
 class InitMap {
 public:
+    void initalizeAllMaps();
     void initCommandsMap();
     void initSimTable();
     void initProgTable();
     void initfuncTable();
+    void initGeneralSimVariable();
 };
 #endif //UNTITLED11_INITMAPS_H

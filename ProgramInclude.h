@@ -11,4 +11,12 @@
 #include "Parser.h"
 #include <iostream>
 #include <string>
+#include "ShuntingAlgorithm/Expression.h"
+#include "ShuntingAlgorithm/Interpeter.h"
+#include "ShuntingAlgorithm/UnaryOperators.h"
+#include "ShuntingAlgorithm/BinaryOperators.h"
+#include "ShuntingAlgorithm/BasicVar.h"
+#include "ShuntingAlgorithm/BinaryAndUnaryAbstract.h"
+#include "Lexer.h"
+#include "VariableAir.h"
 #endif //UNTITLED11_PROGRAMINCLUDE_H
