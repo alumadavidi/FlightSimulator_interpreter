@@ -3,12 +3,14 @@
 //
 
 #include "ClientCommand.h"
+queue<string> ConnectCommand::messageToSend;
 ConnectCommand::~ConnectCommand() {
     if(clientThread.joinable()){
         clientThread.join();
     }
     close(clientSocket);
 }
+
 void ConnectCommand::startTherad() {
     clientThread = thread(&ConnectCommand::writeClient, this);
 }
@@ -26,17 +28,47 @@ int ConnectCommand::execute() {
     return 3;
 }
 void ConnectCommand::writeClient() {
+    std::mutex mutex;
+    string thisMessage;
     while(true) {
-        char x[256] = {'m', 'y', ' '};
-        //cin.get(x, 256);
-        int is_sent = send(clientSocket, x, strlen(x), 0);
-        if (is_sent == -1) {
-            std::cout << "Error sending message" << std::endl;
-        } else {
-            std::cout << "Hello message sent to server" << std::endl;
+
+        // Wait until main() sends data
+//        std::unique_lock<std::mutex> lk(command::m);
+//        cout<<"beforewait"<<endl;
+//        command::cv.wait(lk, []{return command::ready;});
+
+        // after the wait, we own the lock.
+//        std::cout << "Worker thread is processing data\n";
+        mutex.lock();
+        if(!messageToSend.empty()) {
+            thisMessage = messageToSend.front();
+            messageToSend.pop();
+            int is_sent = send(clientSocket, thisMessage.c_str(), thisMessage.length(), 0);
+            if (is_sent == -1) {
+                std::cout << "Error sending message" << std::endl;
+            } else {
+                std::cout << "send: " << thisMessage << std::endl;
+            }
         }
+        mutex.unlock();
+//        lk.unlock();
+//        // Send data back to main()
+//        command::processed = true;
+//        std::cout << "Worker thread signals data processing completed\n";
+
+        // Manual unlocking is done before notifying, to avoid waking up
+        // the waiting thread only to block again (see notify_one for details)
+
+//        command::cv.notify_one();
+//        command::processed = false;
     }
 
+}
+void ConnectCommand::setMessageToSend(string& message) {
+    std::mutex mutex;
+    mutex.lock();
+    messageToSend.push(message);
+    mutex.unlock();
 }
 void ConnectCommand::openSocketClient() {
     //create socket
