@@ -244,9 +244,7 @@ void Interpreter::ShuntingAlgorithm() {
         prevToken = this->tokens.front();
     }
     while(!this->tokens.empty()) {
-
         string oneToken = (tokens.front());
-
         //If it's a number add it to queue
         if(isNumber(oneToken)){
             (this->queueString).push(oneToken);

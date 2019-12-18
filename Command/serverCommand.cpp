@@ -68,13 +68,10 @@ void OpenServerCommand::spliteMessageAndConvertToFloatValur(string& line) {
 }
 void OpenServerCommand::insertValueToGeneralSimVariable(const float* arrayFloat) {
     std::mutex mtx;
-    float num;
-    unordered_map<string, float>::iterator iter;
+    unordered_map<string, float*>::iterator iter;
     mtx.lock();
     for(int index = 0; index < 24; index++) {
-
         switch (index) {
-
             case 0:
                 iter = command::_generalSimVariable->find("/instrumentation/airspeed-indicator/indicated-speed-kt/airspeed-indicator_indicated-speed-kt");
                 break;
@@ -145,12 +142,14 @@ void OpenServerCommand::insertValueToGeneralSimVariable(const float* arrayFloat)
                 iter = command::_generalSimVariable->find("/controls/engines/engine/throttle/engine_throttle");
                 break;
             case 23:
-                iter = command::_generalSimVariable->find("\"/engines/engine/engine_rpm\"");
+                iter = command::_generalSimVariable->find("/engines/engine/engine_rpm");
                 break;
             default:
                 break;
         }
-        iter->second = arrayFloat[index];
+        if(iter->second != nullptr) {
+            *(iter->second) = arrayFloat[index];
+        }
     }
     mtx.unlock();
 //    cout<<"update variable from sim"<<endl;
@@ -174,7 +173,6 @@ void OpenServerCommand::openSocketServer() {
     if (bind(socketfd, (struct sockaddr *) &address, sizeof(address)) == -1) {
         // throw "Could not bind the socket to an IP";
         throw "Could not bind the socket to an IP";
-        return;
     }
     //making socket listen to the port
     if (listen(socketfd, 5) == -1) { //can also set to SOMAXCON (max connections)
@@ -190,7 +188,6 @@ void OpenServerCommand::openSocketServer() {
     }
 
     this->client_socket = client_socket;
-
 }
 OpenServerCommand::~OpenServerCommand() {
     if(serverThread.joinable()){

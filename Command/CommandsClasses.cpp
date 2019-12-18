@@ -73,7 +73,7 @@ int FuncCommand::execute() { //for funcion
 int Print::execute() {
     ++it;
     string toPrint = *it;
-    if(toPrint[0] == '"'){ // string
+    if(toPrint.length() > 0){ // string
         cout << toPrint << endl;
     } else { // print variable
         unordered_map<string, variableAir>::iterator iter;
@@ -91,7 +91,7 @@ int Sleep::execute() {
     string timeS = *(it);
     std::string::size_type sz;   // convert string to long
     long time = std::stol (timeS,&sz);
-    sleep(120);
+    sleep(0);
     //TODO sleep for x miliseconds
     ++it;
     return 2;
@@ -118,10 +118,12 @@ vector<string> holdCommands::getInsideCommend() {
             leftCounter++;
             if (leftCounter == 1) {
                 counter++;
+                it++;
                 continue;
             }
         } else if (*it == "}") {
             rightCounter++;
+
         }
         result.push_back(*it); //add string to the new vector
         counter++;

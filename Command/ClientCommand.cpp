@@ -3,7 +3,6 @@
 //
 
 #include "ClientCommand.h"
-queue<string> ConnectCommand::messageToSend;
 ConnectCommand::~ConnectCommand() {
     if(clientThread.joinable()){
         clientThread.join();
@@ -31,14 +30,6 @@ void ConnectCommand::writeClient() {
     std::mutex mutex;
     string thisMessage;
     while(true) {
-
-        // Wait until main() sends data
-//        std::unique_lock<std::mutex> lk(command::m);
-//        cout<<"beforewait"<<endl;
-//        command::cv.wait(lk, []{return command::ready;});
-
-        // after the wait, we own the lock.
-//        std::cout << "Worker thread is processing data\n";
         mutex.lock();
         if(!messageToSend.empty()) {
             thisMessage = messageToSend.front();
@@ -51,20 +42,10 @@ void ConnectCommand::writeClient() {
             }
         }
         mutex.unlock();
-//        lk.unlock();
-//        // Send data back to main()
-//        command::processed = true;
-//        std::cout << "Worker thread signals data processing completed\n";
-
-        // Manual unlocking is done before notifying, to avoid waking up
-        // the waiting thread only to block again (see notify_one for details)
-
-//        command::cv.notify_one();
-//        command::processed = false;
     }
 
 }
-void ConnectCommand::setMessageToSend(string& message) {
+void ConnectCommand::setMessageToSend(string message) {
     std::mutex mutex;
     mutex.lock();
     messageToSend.push(message);

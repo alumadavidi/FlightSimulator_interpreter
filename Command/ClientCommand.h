@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include <netinet/in.h>
 #include <cstring>
+#include "queue"
 using namespace std;
 class ConnectCommand : public command {
     thread clientThread;
@@ -24,6 +25,7 @@ public:
     void openSocketClient();
     void writeClient();
     void startTherad();
+    static void setMessageToSend(string);
     ConnectCommand(): clientThread(){};
     ~ConnectCommand();
 

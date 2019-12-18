@@ -26,17 +26,15 @@ void Lexer::spliteLineToToken(vector<string>* wordsToken, string& lineToRead){
     //parser letter by letter
     for (int i = 0; i < lineToRead.length(); i++) {
         if(lineToRead[i] == '('){
+            i++;
             addWordToVector(word, wordsToken);
             //if there "" - read until get the next ""
-            if(lineToRead[i+1] == '"'){
-                i++;
-                word += "\"";
+            if(lineToRead[i] == '"'){
                 i++;
                 while(lineToRead[i] != '"'){
                     word += lineToRead[i];
                     i++;
                 }
-                i--;
             }
         }
         else if((lineToRead[i] == '{') || (lineToRead[i] == '}')) {

@@ -29,32 +29,31 @@ void InitMap::initfuncTable() {
     command::_funcsMap = new unordered_map<string, pair<string,vector<string>*>>();
 }
 void InitMap::initGeneralSimVariable() {
-
-    command::_generalSimVariable = new unordered_map<string, float>();
-    command::_generalSimVariable->insert({"/instrumentation/airspeed-indicator/indicated-speed-kt/airspeed-indicator_indicated-speed-kt",0});
-    command::_generalSimVariable->insert({"//instrumentation/heading-indicator/offset-deg/heading-indicator_offset-deg",0});
-    command::_generalSimVariable->insert({"/instrumentation/altimeter/indicated-altitude-ft/altimeter_indicated-altitude-ft",0});
-    command::_generalSimVariable->insert({"/instrumentation/altimeter/pressure-alt-ft/altimeter_pressure-alt-ft",0});
-    command::_generalSimVariable->insert({"/instrumentation/attitude-indicator/indicated-pitch-deg/attitude-indicator_indicated-pitch-deg",0});
-    command::_generalSimVariable->insert({"/instrumentation/attitude-indicator/indicated-roll-deg/attitude-indicator_indicated-roll-deg",0});
-    command::_generalSimVariable->insert({"/instrumentation/attitude-indicator/internal-pitch-deg/attitude-indicator_internal-pitch-deg",0});
-    command::_generalSimVariable->insert({"/instrumentation/attitude-indicator/internal-roll-deg/attitude-indicator_internal-roll-deg",0});
-    command::_generalSimVariable->insert({"/instrumentation/encoder/indicated-altitude-ft/encoder_indicated-altitude-ft",0});
-    command::_generalSimVariable->insert({"/instrumentation/encoder/pressure-alt-ft/encoder_pressure-alt-ft",0});
-    command::_generalSimVariable->insert({"/instrumentation/gps/indicated-altitude-ft/gps_indicated-altitude-ft",0});
-    command::_generalSimVariable->insert({"/instrumentation/gps/indicated-ground-speed-kt/gps_indicated-ground-speed-kt",0});
-    command::_generalSimVariable->insert({"/instrumentation/gps/indicated-vertical-speed/gps_indicated-vertical-speed",0});
-    command::_generalSimVariable->insert({"/instrumentation/heading-indicator/indicated-heading-deg/indicated-heading-deg",0});
-    command::_generalSimVariable->insert({"/instrumentation/magnetic-compass/indicated-heading-deg/magnetic-compass_indicated-heading-deg",0});
-    command::_generalSimVariable->insert({"/instrumentation/slip-skid-ball/indicated-slip-skid/slip-skid-ball_indicated-slip-skid",0});
-    command::_generalSimVariable->insert({"/instrumentation/turn-indicator/indicated-turn-rate/turn-indicator_indicated-turn-rate",0});
-    command::_generalSimVariable->insert({"/instrumentation/vertical-speed-indicator/indicated-speed-fpm/vertical-speed-indicator_indicated-speed-fpm",0});
-    command::_generalSimVariable->insert({"/controls/flight/aileron/flight_aileron",0});
-    command::_generalSimVariable->insert({"/controls/flight/elevator/flight_elevator",0});
-    command::_generalSimVariable->insert({"/controls/flight/rudder/flight_rudder",0});
-    command::_generalSimVariable->insert({"/controls/flight/flaps/flight_flaps",0});
-    command::_generalSimVariable->insert({"/controls/engines/engine/throttle/engine_throttle",0});
-    command::_generalSimVariable->insert({"\"/engines/engine/engine_rpm\"",0});
+    command::_generalSimVariable = new unordered_map<string,float*>();
+    command::_generalSimVariable->insert({"/instrumentation/airspeed-indicator/indicated-speed-kt/airspeed-indicator_indicated-speed-kt",nullptr});
+    command::_generalSimVariable->insert({"//instrumentation/heading-indicator/offset-deg/heading-indicator_offset-deg",nullptr});
+    command::_generalSimVariable->insert({"/instrumentation/altimeter/indicated-altitude-ft/altimeter_indicated-altitude-ft",nullptr});
+    command::_generalSimVariable->insert({"/instrumentation/altimeter/pressure-alt-ft/altimeter_pressure-alt-ft",nullptr});
+    command::_generalSimVariable->insert({"/instrumentation/attitude-indicator/indicated-pitch-deg/attitude-indicator_indicated-pitch-deg",nullptr});
+    command::_generalSimVariable->insert({"/instrumentation/attitude-indicator/indicated-roll-deg/attitude-indicator_indicated-roll-deg",nullptr});
+    command::_generalSimVariable->insert({"/instrumentation/attitude-indicator/internal-pitch-deg/attitude-indicator_internal-pitch-deg",nullptr});
+    command::_generalSimVariable->insert({"/instrumentation/attitude-indicator/internal-roll-deg/attitude-indicator_internal-roll-deg",nullptr});
+    command::_generalSimVariable->insert({"/instrumentation/encoder/indicated-altitude-ft/encoder_indicated-altitude-ft",nullptr});
+    command::_generalSimVariable->insert({"/instrumentation/encoder/pressure-alt-ft/encoder_pressure-alt-ft",nullptr});
+    command::_generalSimVariable->insert({"/instrumentation/gps/indicated-altitude-ft/gps_indicated-altitude-ft",nullptr});
+    command::_generalSimVariable->insert({"/instrumentation/gps/indicated-ground-speed-kt/gps_indicated-ground-speed-kt",nullptr});
+    command::_generalSimVariable->insert({"/instrumentation/gps/indicated-vertical-speed/gps_indicated-vertical-speed",nullptr});
+    command::_generalSimVariable->insert({"/instrumentation/heading-indicator/indicated-heading-deg/indicated-heading-deg",nullptr});
+    command::_generalSimVariable->insert({"/instrumentation/magnetic-compass/indicated-heading-deg/magnetic-compass_indicated-heading-deg",nullptr});
+    command::_generalSimVariable->insert({"/instrumentation/slip-skid-ball/indicated-slip-skid/slip-skid-ball_indicated-slip-skid",nullptr});
+    command::_generalSimVariable->insert({"/instrumentation/turn-indicator/indicated-turn-rate/turn-indicator_indicated-turn-rate",nullptr});
+    command::_generalSimVariable->insert({"/instrumentation/vertical-speed-indicator/indicated-speed-fpm/vertical-speed-indicator_indicated-speed-fpm",nullptr});
+    command::_generalSimVariable->insert({"/controls/flight/aileron/flight_aileron",nullptr});
+    command::_generalSimVariable->insert({"/controls/flight/elevator/flight_elevator",nullptr});
+    command::_generalSimVariable->insert({"/controls/flight/rudder/flight_rudder",nullptr});
+    command::_generalSimVariable->insert({"/controls/flight/flaps/flight_flaps",nullptr});
+    command::_generalSimVariable->insert({"/controls/engines/engine/throttle/engine_throttle",nullptr});
+    command::_generalSimVariable->insert({"/engines/engine/engine_rpm",nullptr});
 }
 void InitMap::initalizeAllMaps() {
     initGeneralSimVariable();
