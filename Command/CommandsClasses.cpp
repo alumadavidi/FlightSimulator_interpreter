@@ -63,12 +63,12 @@ int FuncCommand::execute() { //for funcion
     string funcName = *it;
     ++it;//func name
     ++it;//for var
-    string key = *it;
+    string var = *it;
     it++;
     counter = 3;
     vector<string> inCommand = getInsideCommend();
      // get the inside of the loop to new vector
-    //_funcsMap->insert({funcName, &inCommand{;});
+    _funcsMap->insert({funcName, {var, &inCommand}});
 }
 int Print::execute() {
     ++it;
@@ -165,5 +165,4 @@ int activateFunc::execute() {
     _progTable->erase(key);
     it = tempIt;
     return 2;
-    //TODO check the parameters
 }

@@ -22,15 +22,12 @@ void Parser::parserByTokens(vector<string> &spliteToken) {
                 //get command
                 c = command::_commandsMap->find(*copyIter)->second;
                 index = c->execute();
-            } else {
-                //from type variable = num
-                addToCounter = updateVar();
-                //function call
-                if (addToCounter == 0) {
-                    //vector<command> commands = command::_funcsMap->find(*it)->second;
-                    //for ()
-                }
-                index = addToCounter;
+            } else if(command::_progTable->find(*copyIter) != command::_progTable->end()) {
+                index = updateVar();
+            }
+            else if (command::_funcsMap->find(*copyIter) != command::_funcsMap->end()) {
+                c = new activateFunc();
+                index = c->execute();
             }
             copyIter += index;
         }
