@@ -7,6 +7,7 @@
 
 #include "Command.h"
 #include <thread>
+#include <mutex>
 #include <unistd.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
@@ -24,6 +25,8 @@ public:
     void startTherad();
     void serverRead();
     void readLineFromClient(string &);
+    void spliteMessageAndConvertToFloatValur(string& line);
+    void insertValueToGeneralSimVariable(const float* arrayFloat);
     OpenServerCommand(): serverThread() {};
     ~OpenServerCommand();
 };

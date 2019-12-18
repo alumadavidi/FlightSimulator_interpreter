@@ -7,6 +7,8 @@
 
 #include <vector>
 #include <unordered_map>
+#include <mutex>
+#include <condition_variable>
 #include "../VariableAir.h"
 
 using namespace std;
@@ -20,7 +22,13 @@ public:
     static unordered_map<string, command*>* _commandsMap;
     static unordered_map<string, pair<string,vector<string>*>>* _funcsMap;
     static vector<string>::iterator it;
-    static unordered_map<string, float >* _generalSimVariable;
+    static unordered_map<string, float>* _generalSimVariable;
+
+    static std::mutex m;
+    static std::condition_variable cv;
+    static std::string data;
+    static bool ready;
+    static bool processed;
 
     virtual int execute() = 0;
     virtual ~command() {}

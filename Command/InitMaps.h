@@ -14,8 +14,6 @@ public:
     void initSimTable();
     void initProgTable();
     void initfuncTable();
-
-
     void initGeneralSimVariable();
 };
 

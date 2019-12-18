@@ -8,6 +8,7 @@
 #include "Command/CommandsClasses.h"
 #include "Command/Command.h"
 #include "Command/InitMaps.h"
+#include <condition_variable>
 #include "Parser.h"
 #include <iostream>
 #include <string>

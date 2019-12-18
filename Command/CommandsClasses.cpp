@@ -8,6 +8,7 @@
 
 using namespace std;
 int DefineVarCommand::execute() {
+    std::mutex mutex;
     int counterFunc;
     string sim = "", left = "";
     ++it;//for command
@@ -25,11 +26,13 @@ int DefineVarCommand::execute() {
         ++it;
         counterFunc = 5;
     }
+    mutex.lock();
     variableAir newVar = variableAir(sim, direction);
     _progTable->insert({key, newVar});  ///check the map
     if(left.size() > 0) { // first opetion var x = y
         Parser::updateValueInShuntingAlgo(left, key);
     }
+    mutex.unlock();
     return counterFunc;
 }
 int LoopCommand::execute() {
@@ -88,6 +91,7 @@ int Sleep::execute() {
     string timeS = *(it);
     std::string::size_type sz;   // convert string to long
     long time = std::stol (timeS,&sz);
+    sleep(120);
     //TODO sleep for x miliseconds
     ++it;
     return 2;

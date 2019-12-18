@@ -58,10 +58,10 @@ int Parser::updateVar() {
     updateValueInShuntingAlgo(left, key);
     return 3;
 }
-
 //update value of variable air according shunting yard algo
 void Parser::updateValueInShuntingAlgo(const string & variable,const string & key) {
     unordered_map<string, variableAir>::iterator iter;
+    string message;
     variableAir *var;
     float num;
     if(iter != command::_progTable->find(key)) { // key in map
@@ -70,7 +70,23 @@ void Parser::updateValueInShuntingAlgo(const string & variable,const string & ke
     //get the result
     num = generalShuntingAlgorithem(variable);
     var->setValue(num);
-    //TODO control client
+    var->createMessageToSend(message);
+//    std::lock_guard<std::mutex> lk(command::m);
+//    command::ready = true;
+    if(message.compare("") != 0){
+        ConnectCommand::setMessageToSend(message);
+    }
+
+//    std::cout << "main() signals data ready for processing\n";
+//    command::cv.notify_one();
+//    // wait for the worker
+//    {
+//        std::unique_lock<std::mutex> lk(command::m);
+//        command::cv.wait(lk, []{return command::processed;});
+//    }
+//    std::cout << "Back in main()"<<endl;
+//    command::ready = false;
+
 }
 //general method to get num of variables
 float Parser::generalShuntingAlgorithem(const string& variable) {
