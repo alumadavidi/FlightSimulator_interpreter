@@ -27,10 +27,10 @@ int ConnectCommand::execute() {
     return 3;
 }
 void ConnectCommand::writeClient() {
-    std::mutex mutex;
+//    std::mutexGeneralSimVariable mutexGeneralSimVariable;
     string thisMessage;
     while(true) {
-        mutex.lock();
+        mutexMessage.lock();
         if(!messageToSend.empty()) {
             thisMessage = messageToSend.front();
             messageToSend.pop();
@@ -41,15 +41,15 @@ void ConnectCommand::writeClient() {
                 std::cout << "send: " << thisMessage << std::endl;
             }
         }
-        mutex.unlock();
+        mutexMessage.unlock();
     }
 
 }
 void ConnectCommand::setMessageToSend(string message) {
-    std::mutex mutex;
-    mutex.lock();
+//    std::mutexGeneralSimVariable mutexGeneralSimVariable;
+    mutexMessage.lock();
     messageToSend.push(message);
-    mutex.unlock();
+    mutexMessage.unlock();
 }
 void ConnectCommand::openSocketClient() {
     //create socket

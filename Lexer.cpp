@@ -35,6 +35,8 @@ void Lexer::spliteLineToToken(vector<string>* wordsToken, string& lineToRead){
                     word += lineToRead[i];
                     i++;
                 }
+            } else{
+                word+=lineToRead[i];
             }
         }
         else if((lineToRead[i] == '{') || (lineToRead[i] == '}')) {

@@ -19,14 +19,16 @@ class OpenServerCommand : public command {
     int _port;
     int client_socket;
     int socketfd;
+    static string oldBuf;
 public:
     virtual int execute();
     void openSocketServer();
     void startTherad();
     void serverRead();
-    void readLineFromClient(string &);
-    void spliteMessageAndConvertToFloatValur(string& line);
-    void insertValueToGeneralSimVariable(const float* arrayFloat);
+    void readLineFromClient(string&);
+    void spliteMessageAndConvertToFloatValur(string line);
+    void insertValueToGeneralSimVariable(const float* arrayFloat, string line);
+    void newRead();
     OpenServerCommand(): serverThread() {};
     ~OpenServerCommand();
 };

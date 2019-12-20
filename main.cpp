@@ -5,11 +5,13 @@ unordered_map<string, variableAir>* command::_progTable;
 unordered_map<string, variableAir>* command::_simTable;
 unordered_map<string, command*>* command::_commandsMap;
 unordered_map<string, pair<string,vector<string>*>>* command::_funcsMap;
-unordered_map<string, float*>* command::_generalSimVariable;
+unordered_map<string, float>* command::_generalSimVariable;
 vector<string>::iterator command::it;
 queue<string> command::messageToSend;
+std::mutex command::mutexGeneralSimVariable;
+std::mutex command::mutexMessage;
 
-//std::mutex command::m;
+//std::mutexGeneralSimVariable command::m;
 //std::condition_variable command::cv;
 //std::string command::data;
 //bool command::ready = false;
@@ -21,6 +23,10 @@ int main(int argc, char **argv) {
         InitMap initalizeMap;
         initalizeMap.initalizeAllMaps();
         try {
+            unordered_map<string, float>::iterator iter;
+            iter = command::_generalSimVariable->find("/engines/engine/rpm");
+
+
             parser.parser(fileName);
         } catch (const char* e) {
             cout<<e<<endl;

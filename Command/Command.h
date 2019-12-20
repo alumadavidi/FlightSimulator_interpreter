@@ -23,10 +23,11 @@ public:
     static unordered_map<string, command*>* _commandsMap;
     static unordered_map<string, pair<string,vector<string>*>>* _funcsMap;
     static vector<string>::iterator it;
-    static unordered_map<string, float*>* _generalSimVariable;
+    static unordered_map<string, float>* _generalSimVariable;
     static queue<string> messageToSend;
 
-    static std::mutex m;
+    static std::mutex mutexGeneralSimVariable;
+    static std::mutex mutexMessage;
     static std::condition_variable cv;
     static std::string data;
     static bool ready;

@@ -8,7 +8,7 @@
 
 using namespace std;
 int DefineVarCommand::execute() {
-    std::mutex mutex;
+//    std::mutexGeneralSimVariable mutexGeneralSimVariable;
     int counterFunc;
     string sim = "", left = "";
     ++it;//for command
@@ -26,13 +26,13 @@ int DefineVarCommand::execute() {
         ++it;
         counterFunc = 5;
     }
-    mutex.lock();
+//    mutexGeneralSimVariable.lock();
     variableAir newVar = variableAir(sim, direction);
     _progTable->insert({key, newVar});  ///check the map
     if(left.size() > 0) { // first opetion var x = y
         Parser::updateValueInShuntingAlgo(left, key);
     }
-    mutex.unlock();
+//    mutexGeneralSimVariable.unlock();
     return counterFunc;
 }
 int LoopCommand::execute() {
@@ -73,15 +73,13 @@ int FuncCommand::execute() { //for funcion
 int Print::execute() {
     ++it;
     string toPrint = *it;
-    if(toPrint.length() > 0){ // string
+    unordered_map<string, variableAir>::iterator iter;
+    variableAir *var;
+    if(iter != command::_progTable->find(toPrint)) { // print variable
+        var = &(command::_progTable->find(toPrint)->second);
+        cout << var->getValue() << endl;
+    } else {
         cout << toPrint << endl;
-    } else { // print variable
-        unordered_map<string, variableAir>::iterator iter;
-        variableAir *var;
-        if(iter != command::_progTable->find(toPrint)) {
-            var = &(command::_progTable->find(toPrint)->second);
-            cout << var->getValue() << endl;
-        }
     }
     it++;
     return 2;
@@ -91,7 +89,7 @@ int Sleep::execute() {
     string timeS = *(it);
     std::string::size_type sz;   // convert string to long
     long time = std::stol (timeS,&sz);
-    sleep(0);
+    sleep(80);
     //TODO sleep for x miliseconds
     ++it;
     return 2;
