@@ -33,7 +33,7 @@ void InitMap::initGeneralSimVariable() {
     command::_generalSimVariable->insert({"/instrumentation/airspeed-indicator/indicated-speed-kt",0});
     command::_generalSimVariable->insert({"/sim/time/warp",0});
     command::_generalSimVariable->insert({"/controls/switches/magnetos",0});
-    command::_generalSimVariable->insert({"//instrumentation/heading-indicator/offset-deg",0});
+    command::_generalSimVariable->insert({"/instrumentation/heading-indicator/offset-deg",0});
     command::_generalSimVariable->insert({"/instrumentation/altimeter/indicated-altitude-ft",0});
     command::_generalSimVariable->insert({"/instrumentation/altimeter/pressure-alt-ft",0});
     command::_generalSimVariable->insert({"/instrumentation/attitude-indicator/indicated-pitch-deg",0});

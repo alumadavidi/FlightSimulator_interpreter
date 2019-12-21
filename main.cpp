@@ -19,6 +19,7 @@ std::mutex command::mutexMessage;
 int main(int argc, char **argv) {
     Parser parser;
     if(argc > 1){
+
         string fileName = argv[1];
         InitMap initalizeMap;
         initalizeMap.initalizeAllMaps();

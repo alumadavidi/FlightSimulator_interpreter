@@ -26,13 +26,11 @@ int DefineVarCommand::execute() {
         ++it;
         counterFunc = 5;
     }
-//    mutexGeneralSimVariable.lock();
     variableAir newVar = variableAir(sim, direction);
     _progTable->insert({key, newVar});  ///check the map
     if(left.size() > 0) { // first opetion var x = y
         Parser::updateValueInShuntingAlgo(left, key);
     }
-//    mutexGeneralSimVariable.unlock();
     return counterFunc;
 }
 int LoopCommand::execute() {
@@ -89,7 +87,7 @@ int Sleep::execute() {
     string timeS = *(it);
     std::string::size_type sz;   // convert string to long
     long time = std::stol (timeS,&sz);
-    sleep(80);
+    sleep(1800);
     //TODO sleep for x miliseconds
     ++it;
     return 2;
@@ -121,7 +119,6 @@ vector<string> holdCommands::getInsideCommend() {
             }
         } else if (*it == "}") {
             rightCounter++;
-
         }
         result.push_back(*it); //add string to the new vector
         counter++;

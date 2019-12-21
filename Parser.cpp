@@ -12,7 +12,7 @@ void Parser::parser(string& fileName) {
    parserByTokens(spliteToken);
 }
 void Parser::parserByTokens(vector<string> &spliteToken) {
-    int index = 0, addToCounter = 0;
+    int index = 0;
     command::it = spliteToken.begin();
     command* c;
     if(spliteToken.size() > 0) {

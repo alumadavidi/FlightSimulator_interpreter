@@ -26,8 +26,8 @@ public:
     void startTherad();
     void serverRead();
     void readLineFromClient(string&);
-    void spliteMessageAndConvertToFloatValur(string line);
-    void insertValueToGeneralSimVariable(const float* arrayFloat, string line);
+    void spliteLineAndUpdate(string line);
+    void updateSimTable(const float* arrayFloat, string line);
     void newRead();
     OpenServerCommand(): serverThread() {};
     ~OpenServerCommand();
