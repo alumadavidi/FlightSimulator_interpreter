@@ -87,7 +87,7 @@ int Sleep::execute() {
     string timeS = *(it);
     std::string::size_type sz;   // convert string to long
     long time = std::stol (timeS,&sz);
-    sleep(20);
+    sleep(80);
     //TODO sleep for x miliseconds
     ++it;
     return 2;

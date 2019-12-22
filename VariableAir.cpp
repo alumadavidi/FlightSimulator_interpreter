@@ -21,7 +21,7 @@ float variableAir::calculate() {
 void variableAir::createMessageToSend(string& message) {
     message = "";
     if(this->_direction.compare("->") == 0){
-        message = "set " + this->_sim+ " " + to_string(_value) + "\r\n";
+        message = "set " + this->_sim+ " " + to_string(this->calculate()) + "\r\n";
     }
 }
 string variableAir::getDirection() {

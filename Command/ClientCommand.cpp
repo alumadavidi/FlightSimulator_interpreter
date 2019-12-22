@@ -31,14 +31,14 @@ void ConnectCommand::writeClient() {
     while(true) {
         if(serverFinish) {
             mutexGeneralSimVariable.lock();
-            if (!messageToSend.empty()) {
+            while (!messageToSend.empty()) {
                 thisMessage = messageToSend.front();
                 messageToSend.pop();
                 int is_sent = send(clientSocket, thisMessage.c_str(), thisMessage.length(), 0);
                 if (is_sent == -1) {
                     std::cout << "Error sending message" << std::endl;
                 } else {
-                    //std::cout << "send: " << thisMessage << std::endl;
+                    std::cout << "send: " << thisMessage << std::endl;
                 }
             }
             serverFinish = false;
@@ -48,6 +48,7 @@ void ConnectCommand::writeClient() {
 
 }
 void ConnectCommand::setMessageToSend(string message) {
+
     messageToSend.push(message);
 }
 void ConnectCommand::openSocketClient() {

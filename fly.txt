@@ -25,6 +25,7 @@ Print("waiting 2 minutes for gui")
 Sleep(120000)
 Print("let's start")
 warp = 32000
+Sleep(1000)
 magnetos = 3
 throttle = 0.2
 mixture = 0.949
@@ -37,20 +38,18 @@ starter = 1
 autostart = 1
 Print("engine is warming...")
 Print(rpm)
+while rpm <= 750 {
+    Print(rpm)
+}
 Sleep(5000)
 Print("let's fly")
 var h0 = heading
 breaks = 0
 throttle = 1
-Print("rpm")
-Print(rpm)
-Print("alt")
-Print(alt)
-while alt <= 1000 {
+while alt < 1000 {
 	rudder = (h0 - heading)/80
 	aileron = -roll / 70
 	elevator = pitch / 50
 	Sleep(250)
-	Print(alt)
 }
 Print("done")

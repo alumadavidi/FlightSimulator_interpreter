@@ -30,7 +30,7 @@ void InitMap::initfuncTable() {
     command::_funcsMap = new unordered_map<string, pair<string,vector<string>*>>();
 }
 void InitMap::initGeneralSimVariable() {
-    command::_generalSimVariable = new map<string,float>();
+    command::_generalSimVariable = new unordered_map<string, float>();
     command::_generalSimVariable->insert({V1,0});
     command::_generalSimVariable->insert({V2,0});
     command::_generalSimVariable->insert({V3,0});
