@@ -14,7 +14,7 @@ void ConnectCommand::startTherad() {
     clientThread = thread(&ConnectCommand::writeClient, this);
 }
 int ConnectCommand::execute() {
-    cout<<"enter to connect client"<<endl;
+    cout<<"enter to connect client\n"<<endl;
     ++it;
     _ip = (*it).c_str();
     ++it;
@@ -27,29 +27,28 @@ int ConnectCommand::execute() {
     return 3;
 }
 void ConnectCommand::writeClient() {
-//    std::mutexGeneralSimVariable mutexGeneralSimVariable;
     string thisMessage;
     while(true) {
-        mutexMessage.lock();
-        if(!messageToSend.empty()) {
-            thisMessage = messageToSend.front();
-            messageToSend.pop();
-            int is_sent = send(clientSocket, thisMessage.c_str(), thisMessage.length(), 0);
-            if (is_sent == -1) {
-                std::cout << "Error sending message" << std::endl;
-            } else {
-                std::cout << "send: " << thisMessage << std::endl;
+        if(serverFinish) {
+            mutexGeneralSimVariable.lock();
+            if (!messageToSend.empty()) {
+                thisMessage = messageToSend.front();
+                messageToSend.pop();
+                int is_sent = send(clientSocket, thisMessage.c_str(), thisMessage.length(), 0);
+                if (is_sent == -1) {
+                    std::cout << "Error sending message" << std::endl;
+                } else {
+                    //std::cout << "send: " << thisMessage << std::endl;
+                }
             }
+            serverFinish = false;
+            mutexGeneralSimVariable.unlock();
         }
-        mutexMessage.unlock();
     }
 
 }
 void ConnectCommand::setMessageToSend(string message) {
-//    std::mutexGeneralSimVariable mutexGeneralSimVariable;
-    mutexMessage.lock();
     messageToSend.push(message);
-    mutexMessage.unlock();
 }
 void ConnectCommand::openSocketClient() {
     //create socket

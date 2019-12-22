@@ -13,7 +13,7 @@ using namespace std;
 
 class variableAir :Expression {
 private:
-    float *_value;
+    float _value;
     string _sim;
     string _direction;
 public:
@@ -22,5 +22,8 @@ public:
     float getValue() const;
     void createMessageToSend(string&);
     virtual float calculate();
+    string getDirection();
+    string getSim();
+
 };
 #endif //UNTITLED11_VARIABLEAIR_H

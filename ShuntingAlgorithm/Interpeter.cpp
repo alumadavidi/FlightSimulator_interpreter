@@ -112,7 +112,7 @@ void Interpreter::replaceNameInValue() {
                 for (auto iter : *command::_progTable) {
                     if (iter.first.compare(token) == 0) {
                         // convert string to double
-                        float num = iter.second.getValue();
+                        float num = iter.second.calculate();
                         std::ostringstream os;
                         os << num;
                         std::string str = os.str();

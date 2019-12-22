@@ -75,7 +75,7 @@ int Print::execute() {
     variableAir *var;
     if(iter != command::_progTable->find(toPrint)) { // print variable
         var = &(command::_progTable->find(toPrint)->second);
-        cout << var->getValue() << endl;
+        cout << var->calculate() << endl;
     } else {
         cout << toPrint << endl;
     }
@@ -87,7 +87,7 @@ int Sleep::execute() {
     string timeS = *(it);
     std::string::size_type sz;   // convert string to long
     long time = std::stol (timeS,&sz);
-    sleep(1800);
+    sleep(20);
     //TODO sleep for x miliseconds
     ++it;
     return 2;

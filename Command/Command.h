@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <unordered_map>
+#include <map>
 #include <mutex>
 #include <condition_variable>
 #include <queue>
@@ -23,14 +24,12 @@ public:
     static unordered_map<string, command*>* _commandsMap;
     static unordered_map<string, pair<string,vector<string>*>>* _funcsMap;
     static vector<string>::iterator it;
-    static unordered_map<string, float>* _generalSimVariable;
+    static map<string, float>* _generalSimVariable;
     static queue<string> messageToSend;
-
     static std::mutex mutexGeneralSimVariable;
-    static std::mutex mutexMessage;
     static std::condition_variable cv;
     static std::string data;
-    static bool ready;
+    static bool serverFinish;
     static bool processed;
 
     virtual int execute() = 0;

@@ -25,10 +25,7 @@ public:
     void openSocketServer();
     void startTherad();
     void serverRead();
-    void readLineFromClient(string&);
-    void spliteLineAndUpdate(string line);
-    void updateSimTable(const float* arrayFloat, string line);
-    void newRead();
+    void updateVariables(char[]);
     OpenServerCommand(): serverThread() {};
     ~OpenServerCommand();
 };

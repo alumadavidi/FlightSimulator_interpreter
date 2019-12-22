@@ -5,6 +5,7 @@
 #include "InitMaps.h"
 #include "serverCommand.h"
 #include "ClientCommand.h"
+#include "../data.h"
 
 //initalize the map with the command object
 void InitMap::initCommandsMap() {
@@ -29,43 +30,43 @@ void InitMap::initfuncTable() {
     command::_funcsMap = new unordered_map<string, pair<string,vector<string>*>>();
 }
 void InitMap::initGeneralSimVariable() {
-    command::_generalSimVariable = new unordered_map<string,float>();
-    command::_generalSimVariable->insert({"/instrumentation/airspeed-indicator/indicated-speed-kt",0});
-    command::_generalSimVariable->insert({"/sim/time/warp",0});
-    command::_generalSimVariable->insert({"/controls/switches/magnetos",0});
-    command::_generalSimVariable->insert({"/instrumentation/heading-indicator/offset-deg",0});
-    command::_generalSimVariable->insert({"/instrumentation/altimeter/indicated-altitude-ft",0});
-    command::_generalSimVariable->insert({"/instrumentation/altimeter/pressure-alt-ft",0});
-    command::_generalSimVariable->insert({"/instrumentation/attitude-indicator/indicated-pitch-deg",0});
-    command::_generalSimVariable->insert({"/instrumentation/attitude-indicator/indicated-roll-deg",0});
-    command::_generalSimVariable->insert({"/instrumentation/attitude-indicator/internal-pitch-deg",0});
-    command::_generalSimVariable->insert({"/instrumentation/attitude-indicator/internal-roll-deg",0});
-    command::_generalSimVariable->insert({"/instrumentation/encoder/indicated-altitude-ft",0});
-    command::_generalSimVariable->insert({"/instrumentation/encoder/pressure-alt-ft",0});
-    command::_generalSimVariable->insert({"/instrumentation/gps/indicated-altitude-ft",0});
-    command::_generalSimVariable->insert({"/instrumentation/gps/indicated-ground-speed-kt",0});
-    command::_generalSimVariable->insert({"/instrumentation/gps/indicated-vertical-speed",0});
-    command::_generalSimVariable->insert({"/instrumentation/heading-indicator/indicated-heading-deg",0});
-    command::_generalSimVariable->insert({"/instrumentation/magnetic-compass/indicated-heading-deg",0});
-    command::_generalSimVariable->insert({"/instrumentation/slip-skid-ball/indicated-slip-skid",0});
-    command::_generalSimVariable->insert({"/instrumentation/turn-indicator/indicated-turn-rate",0});
-    command::_generalSimVariable->insert({"/instrumentation/vertical-speed-indicator/indicated-speed-fpm",0});
-    command::_generalSimVariable->insert({"/controls/flight/aileron",0});
-    command::_generalSimVariable->insert({"/controls/flight/elevator",0});
-    command::_generalSimVariable->insert({"/controls/flight/rudder",0});
-    command::_generalSimVariable->insert({"/controls/flight/flaps",0});
-    command::_generalSimVariable->insert({"/controls/engines/engine/throttle",0});
-    command::_generalSimVariable->insert({"/controls/engines/current-engine/throttle",0});
-    command::_generalSimVariable->insert({"/controls/switches/master-avionics",0});
-    command::_generalSimVariable->insert({"/controls/switches/starter",0});
-    command::_generalSimVariable->insert({"/engines/active-engine/auto-start",0});
-    command::_generalSimVariable->insert({"/controls/flight/speedbrake",0});
-    command::_generalSimVariable->insert({"/sim/model/c172p/brake-parking",0});
-    command::_generalSimVariable->insert({"/controls/engines/engine/primer",0});
-    command::_generalSimVariable->insert({"/controls/engines/current-engine/mixture",0});
-    command::_generalSimVariable->insert({"/controls/switches/master-bat",0});
-    command::_generalSimVariable->insert({"/controls/switches/master-alt",0});
-    command::_generalSimVariable->insert({"/engines/engine/rpm",0});
+    command::_generalSimVariable = new map<string,float>();
+    command::_generalSimVariable->insert({V1,0});
+    command::_generalSimVariable->insert({V2,0});
+    command::_generalSimVariable->insert({V3,0});
+    command::_generalSimVariable->insert({V4,0});
+    command::_generalSimVariable->insert({V5,0});
+    command::_generalSimVariable->insert({V6,0});
+    command::_generalSimVariable->insert({V7,0});
+    command::_generalSimVariable->insert({V8,0});
+    command::_generalSimVariable->insert({V9,0});
+    command::_generalSimVariable->insert({V10,0});
+    command::_generalSimVariable->insert({V11,0});
+    command::_generalSimVariable->insert({V12,0});
+    command::_generalSimVariable->insert({V13,0});
+    command::_generalSimVariable->insert({V14,0});
+    command::_generalSimVariable->insert({V15,0});
+    command::_generalSimVariable->insert({V16,0});
+    command::_generalSimVariable->insert({V17,0});
+    command::_generalSimVariable->insert({V18,0});
+    command::_generalSimVariable->insert({V19,0});
+    command::_generalSimVariable->insert({V20,0});
+    command::_generalSimVariable->insert({V21,0});
+    command::_generalSimVariable->insert({V22,0});
+    command::_generalSimVariable->insert({V23,0});
+    command::_generalSimVariable->insert({V24,0});
+    command::_generalSimVariable->insert({V25,0});
+    command::_generalSimVariable->insert({V26,0});
+    command::_generalSimVariable->insert({V27,0});
+    command::_generalSimVariable->insert({V28,0});
+    command::_generalSimVariable->insert({V29,0});
+    command::_generalSimVariable->insert({V30,0});
+    command::_generalSimVariable->insert({V31,0});
+    command::_generalSimVariable->insert({V32,0});
+    command::_generalSimVariable->insert({V33,0});
+    command::_generalSimVariable->insert({V34,0});
+    command::_generalSimVariable->insert({V35,0});
+    command::_generalSimVariable->insert({V36,0});
 
 }
 void InitMap::initalizeAllMaps() {
