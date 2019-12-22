@@ -8,15 +8,18 @@
 variableAir::variableAir(string sim, string direction) {
     this->_direction = direction;
     this->_sim = sim;
+    if(_direction== "<-") {
+        _value = &command::_generalSimVariable->find(_sim)->second;
+    }
 }
 void variableAir::setValue(float value) {
-    _value = value;
+    *_value = value;
 }
 float variableAir::calculate() {
     if(_direction== "<-") {
-        _value = command::_generalSimVariable->find(_sim)->second;
+        *_value = command::_generalSimVariable->find(_sim)->second;
     }
-    return _value;
+    return *_value;
 }
 void variableAir::createMessageToSend(string& message) {
     message = "";

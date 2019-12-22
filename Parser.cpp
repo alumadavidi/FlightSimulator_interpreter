@@ -18,20 +18,22 @@ void Parser::parserByTokens(vector<string> &spliteToken) {
     if(spliteToken.size() > 0) {
         vector<string>::iterator copyIter = spliteToken.begin();
         while (copyIter != spliteToken.end()) {
-            if(command::_commandsMap->find(*copyIter) != command::_commandsMap->end()){
-                //get command
-                c = command::_commandsMap->find(*copyIter)->second;
-                index = c->execute();
-            } else if(command::_progTable->find(*copyIter) != command::_progTable->end()) {
-                index = updateVar();
+
+                if (command::_commandsMap->find(*copyIter) != command::_commandsMap->end()) {
+                    //get command
+                    c = command::_commandsMap->find(*copyIter)->second;
+                    index = c->execute();
+                } else if (command::_progTable->find(*copyIter) != command::_progTable->end()) {
+                    index = updateVar();
+                } else if (command::_funcsMap->find(*copyIter) != command::_funcsMap->end()) {
+                    c = new activateFunc();
+                    index = c->execute();
+                }
+                copyIter += index;
             }
-            else if (command::_funcsMap->find(*copyIter) != command::_funcsMap->end()) {
-                c = new activateFunc();
-                index = c->execute();
-            }
-            copyIter += index;
+
         }
-    }
+
 }
 
 
@@ -57,21 +59,28 @@ int Parser::updateVar() {
 }
 //update value of variable air according shunting yard algo
 void Parser::updateValueInShuntingAlgo(const string & variable,const string & key) {
-    unordered_map<string, variableAir>::iterator iter;
     string message;
-    variableAir *var;
-    float num;
-    if(iter != command::_progTable->find(key)) { // key in map
-        var = &(command::_progTable->find(key)->second);
-    }
-    //get the result
+//    if (command::updateFinish) {
+//        command::mutexMessage.lock();
+        unordered_map<string, variableAir>::iterator iter;
+        variableAir *var;
+        float num;
+        if (iter != command::_progTable->find(key)) { // key in map
+            var = &(command::_progTable->find(key)->second);
+        }
+        //get the result
 
-    num = generalShuntingAlgorithem(variable);
-    var->setValue(num);
-    var->createMessageToSend(message);
-    if(message.compare("") != 0){
-        ConnectCommand::setMessageToSend(message);
-    }
+        num = generalShuntingAlgorithem(variable);
+        var->setValue(num);
+        var->createMessageToSend(message);
+        if(message.compare("") != 0){
+            ConnectCommand::setMessageToSend(message);
+        }
+//    }
+//    command::updateFinish = false;
+//    command::mutexMessage.unlock();
+
+
 }
 //general method to get num of variables
 float Parser::generalShuntingAlgorithem(const string& variable) {

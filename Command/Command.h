@@ -27,6 +27,8 @@ public:
     static unordered_map<string, float>* _generalSimVariable;
     static queue<string> messageToSend;
     static std::mutex mutexGeneralSimVariable;
+    static std::mutex mutexMessage;
+    static bool updateFinish;
     static std::condition_variable cv;
     static std::string data;
     static bool serverFinish;

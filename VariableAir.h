@@ -13,7 +13,7 @@ using namespace std;
 
 class variableAir :Expression {
 private:
-    float _value;
+    float* _value;
     string _sim;
     string _direction;
 public:

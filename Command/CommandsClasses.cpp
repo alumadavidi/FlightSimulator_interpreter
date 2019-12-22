@@ -26,11 +26,13 @@ int DefineVarCommand::execute() {
         ++it;
         counterFunc = 5;
     }
-    variableAir newVar = variableAir(sim, direction);
-    _progTable->insert({key, newVar});  ///check the map
-    if(left.size() > 0) { // first opetion var x = y
-        Parser::updateValueInShuntingAlgo(left, key);
-    }
+
+        variableAir newVar = variableAir(sim, direction);
+        _progTable->insert({key, newVar});  ///check the map
+        if (left.size() > 0) { // first opetion var x = y
+            Parser::updateValueInShuntingAlgo(left, key);
+        }
+
     return counterFunc;
 }
 int LoopCommand::execute() {

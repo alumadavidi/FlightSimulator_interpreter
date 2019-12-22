@@ -29,9 +29,15 @@ void OpenServerCommand::serverRead() {
             if (n == -1) {
                 cerr << "error in read line from clinet" << endl;
             }
-            updateVariables(buf);
-            serverFinish = true;
-            mutexGeneralSimVariable.unlock();
+//            if(!updateFinish){
+//                command::mutexMessage.lock();
+                updateVariables(buf);
+//                updateFinish = true;
+//                command::mutexMessage.unlock();
+                serverFinish = true;
+                mutexGeneralSimVariable.unlock();
+//            }
+
         }
     }
 }
@@ -53,19 +59,23 @@ void OpenServerCommand::updateVariables(char buf[]) {
     //update sim map
     //map<string, float>::iterator mapIt = _generalSimVariable->begin();
     unordered_map<string, float>::iterator iter;
-    for(int i = 0; i < line.length(); i++) {
-        char c = line[i];
-        if(c != ',' && c != '\n') {
-            word += c;
-        } else {
+    if(!updateFinish) {
+        mutexMessage.lock();
+        int k = 0;
+        for (int i = 0; i < line.length(); i++) {
+            char c = line[i];
+            if (c != ',' && c != '\n') {
+                word += c;
+            } else {
 //            int val = stof(word);
 //            mapIt->second = val;
 //            mapIt++;
 //            word = "";
 
-                switch (i) {
+                switch (k) {
                     case 0:
-                        iter = command::_generalSimVariable->find("/instrumentation/airspeed-indicator/indicated-speed-kt");
+                        iter = command::_generalSimVariable->find(
+                                "/instrumentation/airspeed-indicator/indicated-speed-kt");
                         break;
                     case 1:
                         iter = command::_generalSimVariable->find("/sim/time/warp");
@@ -83,16 +93,20 @@ void OpenServerCommand::updateVariables(char buf[]) {
                         iter = command::_generalSimVariable->find("/instrumentation/altimeter/pressure-alt-ft");
                         break;
                     case 6:
-                        iter = command::_generalSimVariable->find("/instrumentation/attitude-indicator/indicated-pitch-deg");
+                        iter = command::_generalSimVariable->find(
+                                "/instrumentation/attitude-indicator/indicated-pitch-deg");
                         break;
                     case 7:
-                        iter = command::_generalSimVariable->find("/instrumentation/attitude-indicator/indicated-roll-deg");
+                        iter = command::_generalSimVariable->find(
+                                "/instrumentation/attitude-indicator/indicated-roll-deg");
                         break;
                     case 8:
-                        iter = command::_generalSimVariable->find("/instrumentation/attitude-indicator/internal-pitch-deg");
+                        iter = command::_generalSimVariable->find(
+                                "/instrumentation/attitude-indicator/internal-pitch-deg");
                         break;
                     case 9:
-                        iter = command::_generalSimVariable->find("/instrumentation/attitude-indicator/internal-roll-deg");
+                        iter = command::_generalSimVariable->find(
+                                "/instrumentation/attitude-indicator/internal-roll-deg");
                         break;
                     case 10:
                         iter = command::_generalSimVariable->find("/instrumentation/encoder/indicated-altitude-ft");
@@ -110,19 +124,24 @@ void OpenServerCommand::updateVariables(char buf[]) {
                         iter = command::_generalSimVariable->find("/instrumentation/gps/indicated-vertical-speed");
                         break;
                     case 15:
-                        iter = command::_generalSimVariable->find("/instrumentation/heading-indicator/indicated-heading-deg");
+                        iter = command::_generalSimVariable->find(
+                                "/instrumentation/heading-indicator/indicated-heading-deg");
                         break;
                     case 16:
-                        iter = command::_generalSimVariable->find("/instrumentation/magnetic-compass/indicated-heading-deg");
+                        iter = command::_generalSimVariable->find(
+                                "/instrumentation/magnetic-compass/indicated-heading-deg");
                         break;
                     case 17:
-                        iter = command::_generalSimVariable->find("/instrumentation/slip-skid-ball/indicated-slip-skid");
+                        iter = command::_generalSimVariable->find(
+                                "/instrumentation/slip-skid-ball/indicated-slip-skid");
                         break;
                     case 18:
-                        iter = command::_generalSimVariable->find("/instrumentation/turn-indicator/indicated-turn-rate");
+                        iter = command::_generalSimVariable->find(
+                                "/instrumentation/turn-indicator/indicated-turn-rate");
                         break;
                     case 19:
-                        iter = command::_generalSimVariable->find("/instrumentation/vertical-speed-indicator/indicated-speed-fpm");
+                        iter = command::_generalSimVariable->find(
+                                "/instrumentation/vertical-speed-indicator/indicated-speed-fpm");
                         break;
                     case 20:
                         iter = command::_generalSimVariable->find("/controls/flight/aileron");
@@ -175,10 +194,17 @@ void OpenServerCommand::updateVariables(char buf[]) {
                     default:
                         break;
                 }
-                int val = stof(word);
+                float val = stof(word);
                 iter->second = val;
+                k++;
+                word.clear();
+
+            }
         }
+        updateFinish = true;
+        mutexMessage.unlock();
     }
+
 }
 
 void OpenServerCommand::openSocketServer() {
