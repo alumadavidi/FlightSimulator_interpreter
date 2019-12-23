@@ -13,13 +13,14 @@ using namespace std;
 
 class variableAir :Expression {
 private:
-    float* _value;
+    float _progValue;
+    float _simValue;
     string _sim;
     string _direction;
 public:
     variableAir(string sim, string direction);
-    void setValue(float value);
-    float getValue() const;
+    void setProgValue(float value);
+    void setSimValue(float value);
     void createMessageToSend(string&);
     virtual float calculate();
     string getDirection();

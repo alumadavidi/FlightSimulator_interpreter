@@ -27,6 +27,7 @@ Print("let's start")
 warp = 32000
 Sleep(1000)
 magnetos = 3
+rpm = 700
 throttle = 0.2
 mixture = 0.949
 masterbat = 1
@@ -36,9 +37,12 @@ brakeparking = 0
 primer = 3
 starter = 1
 autostart = 1
+Sleep(2)
+Sleep(6)
 Print("engine is warming...")
 while rpm <= 750 {
     Print(rpm)
+    rpm = rpm + 70
 }
 Sleep(5000)
 Print("let's fly")

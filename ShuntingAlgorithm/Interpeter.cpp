@@ -109,23 +109,18 @@ void Interpreter::replaceNameInValue() {
                 && !token.compare("*") == 0 && !token.compare("<") == 0 && !token.compare(">") == 0
                 && !token.compare("<=") == 0 && !token.compare(">=") == 0
                 && !token.compare("==") == 0 && !token.compare("!=") == 0) {
-//                if(command::updateFinish) {
-//                    command::mutexMessage.lock();
-                    for (auto iter : *command::_progTable) {
-                        if (iter.first.compare(token) == 0) {
-                            // convert string to double
-                            float num = iter.second.calculate();
-                            std::ostringstream os;
-                            os << num;
-                            std::string str = os.str();
-                            *it = str;
-                            findVeriableValue = true;
-                            break;
-                        }
-                        findVeriableValue = false;
+                for (auto iter : *command::_progTable) {
+                    if (iter.first.compare(token) == 0) {
+                        // convert string to double
+                        float num = iter.second->calculate();
+                        std::ostringstream os;
+                        os << num;
+                        std::string str = os.str();
+                        *it = str;
+                        findVeriableValue = true;
+                        break;
                     }
-//                    command::updateFinish = false;
-//                    command::mutexMessage.unlock();
+                    findVeriableValue = false;
                 }
                 if (!findVeriableValue) {
                     throw "Variable not initialized";

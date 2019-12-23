@@ -27,11 +27,12 @@ int DefineVarCommand::execute() {
         counterFunc = 5;
     }
 
-        variableAir newVar = variableAir(sim, direction);
-        _progTable->insert({key, newVar});  ///check the map
-        if (left.size() > 0) { // first opetion var x = y
-            Parser::updateValueInShuntingAlgo(left, key);
-        }
+    variableAir* newVar = new variableAir(sim, direction);
+    _progTable->insert({key, newVar});  ///check the map
+    command::_generalSimVariable->at(sim).second = newVar;
+    if (left.size() > 0) { // first opetion var x = y
+        Parser::updateValueInShuntingAlgo(left, key);
+    }
 
     return counterFunc;
 }
@@ -73,10 +74,10 @@ int FuncCommand::execute() { //for funcion
 int Print::execute() {
     ++it;
     string toPrint = *it;
-    unordered_map<string, variableAir>::iterator iter;
+    unordered_map<string, variableAir*>::iterator iter;
     variableAir *var;
     if(iter != command::_progTable->find(toPrint)) { // print variable
-        var = &(command::_progTable->find(toPrint)->second);
+        var = command::_progTable->find(toPrint)->second;
         cout << var->calculate() << endl;
     } else {
         cout << toPrint << endl;
@@ -89,7 +90,7 @@ int Sleep::execute() {
     string timeS = *(it);
     std::string::size_type sz;   // convert string to long
     long time = std::stol (timeS,&sz);
-    sleep(80);
+    sleep(30);
     //TODO sleep for x miliseconds
     ++it;
     return 2;
@@ -152,7 +153,7 @@ int activateFunc::execute() {
     vector<string> inCommands = *command::_funcsMap->find(*it)->second.second;
     string key = command::_funcsMap->find(*it)->second.first;
     it++;
-    variableAir localVar = variableAir("", "");
+    variableAir* localVar = new variableAir("", "");
     string paramVal = *it;
     _progTable->insert({key, localVar});
     parser.updateValueInShuntingAlgo(key, paramVal);

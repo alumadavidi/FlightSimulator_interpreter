@@ -9,17 +9,21 @@ variableAir::variableAir(string sim, string direction) {
     this->_direction = direction;
     this->_sim = sim;
     if(_direction== "<-") {
-        _value = &command::_generalSimVariable->find(_sim)->second;
+        _simValue = command::_generalSimVariable->find(_sim)->second.first;
     }
 }
-void variableAir::setValue(float value) {
-    *_value = value;
+void variableAir::setProgValue(float value) {
+    _progValue = value;
+}
+void variableAir::setSimValue(float value) {
+    _simValue = value;
 }
 float variableAir::calculate() {
     if(_direction== "<-") {
-        *_value = command::_generalSimVariable->find(_sim)->second;
+        return _simValue;
+    } else if(_direction== "->") {
+        return _progValue;
     }
-    return *_value;
 }
 void variableAir::createMessageToSend(string& message) {
     message = "";

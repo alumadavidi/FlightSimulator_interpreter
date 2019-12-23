@@ -62,16 +62,16 @@ void Parser::updateValueInShuntingAlgo(const string & variable,const string & ke
     string message;
 //    if (command::updateFinish) {
 //        command::mutexMessage.lock();
-        unordered_map<string, variableAir>::iterator iter;
+        unordered_map<string, variableAir*>::iterator iter;
         variableAir *var;
         float num;
         if (iter != command::_progTable->find(key)) { // key in map
-            var = &(command::_progTable->find(key)->second);
+            var = command::_progTable->find(key)->second;
         }
         //get the result
 
         num = generalShuntingAlgorithem(variable);
-        var->setValue(num);
+    var->setProgValue(num);
         var->createMessageToSend(message);
         if(message.compare("") != 0){
             ConnectCommand::setMessageToSend(message);
