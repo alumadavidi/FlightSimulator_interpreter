@@ -42,7 +42,6 @@ Sleep(6)
 Print("engine is warming...")
 while rpm <= 750 {
     Print(rpm)
-    rpm = rpm + 70
 }
 Sleep(5000)
 Print("let's fly")
@@ -54,5 +53,6 @@ while alt < 1000 {
 	aileron = -roll / 70
 	elevator = pitch / 50
 	Sleep(250)
+	Print(alt)
 }
 Print("done")

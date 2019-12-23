@@ -30,7 +30,7 @@ void ConnectCommand::writeClient() {
     string thisMessage;
     while(true) {
         if(serverFinish) {
-            cout<<"enter"<<serverFinish<<endl;
+//            cout<<"enter"<<serverFinish<<endl;
             mutexGeneralSimVariable.lock();
             while (!messageToSend.empty()) {
                 thisMessage = messageToSend.front();

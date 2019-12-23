@@ -29,7 +29,9 @@ int DefineVarCommand::execute() {
 
     variableAir* newVar = new variableAir(sim, direction);
     _progTable->insert({key, newVar});  ///check the map
-    command::_generalSimVariable->at(sim).second = newVar;
+    if(newVar->getDirection() == "<-") {
+        command::_generalSimVariable->at(sim).second = newVar;
+    }
     if (left.size() > 0) { // first opetion var x = y
         Parser::updateValueInShuntingAlgo(left, key);
     }
@@ -37,6 +39,7 @@ int DefineVarCommand::execute() {
     return counterFunc;
 }
 int LoopCommand::execute() {
+    int counterTemp = 0;
     Parser parser;
     init(); //shared code to loop and if
     _inCommands = getInsideCommend(); // get the inside of the loop to new vector
@@ -46,9 +49,12 @@ int LoopCommand::execute() {
         parser.parserByTokens(copyInCommands);
     }
     command::it = temp;
-    return counter;
+    counterTemp = counter;
+    counter = 0;
+    return counterTemp;
 }
 int IfCommand::execute() {
+    int counterTemp;
     Parser parser;
     init(); //shared code to loop and if
     _inCommands = getInsideCommend(); // get the inside of the loop to new vector
@@ -58,7 +64,9 @@ int IfCommand::execute() {
         parser.parserByTokens(copyInCommands);
     }
     command::it = temp;
-    return counter;
+    counterTemp = counter;
+    counter = 0;
+    return counterTemp;
 }
 int FuncCommand::execute() { //for funcion
     string funcName = *it;
@@ -74,10 +82,15 @@ int FuncCommand::execute() { //for funcion
 int Print::execute() {
     ++it;
     string toPrint = *it;
+    string name;
     unordered_map<string, variableAir*>::iterator iter;
     variableAir *var;
     if(iter != command::_progTable->find(toPrint)) { // print variable
         var = command::_progTable->find(toPrint)->second;
+        name = command::_progTable->find(toPrint)->first;
+        if(name.compare("alt") == 0 && var->calculate() > 995){
+            cout<<"stop"<<endl;
+        }
         cout << var->calculate() << endl;
     } else {
         cout << toPrint << endl;
@@ -90,7 +103,8 @@ int Sleep::execute() {
     string timeS = *(it);
     std::string::size_type sz;   // convert string to long
     long time = std::stol (timeS,&sz);
-    sleep(30);
+    std::this_thread::sleep_for(std::chrono::milliseconds(time));
+//    sleep(30);
     //TODO sleep for x miliseconds
     ++it;
     return 2;

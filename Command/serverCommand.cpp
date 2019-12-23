@@ -48,8 +48,9 @@ void OpenServerCommand::updateVariables(char buf[]) {
         endOfLine = j;
     }
     string word = "";
-    string line = bufString.substr(startOfLine, endOfLine - startOfLine);
-    cout<<line<<endl;
+    string line = bufString.substr(startOfLine, endOfLine - startOfLine + 1);
+//    cout<<line<<endl;
+    int k = 0;
     //update sim map
     //map<string, float>::iterator mapIt = _generalSimVariable->begin();
     unordered_map<string, pair<float,variableAir*>>::iterator iter;
@@ -58,7 +59,7 @@ void OpenServerCommand::updateVariables(char buf[]) {
         if(c != ',' && c != '\n') {
             word += c;
         } else {
-            switch (i) {
+            switch (k) {
                 case 0:
                     iter = command::_generalSimVariable->find("/instrumentation/airspeed-indicator/indicated-speed-kt");
                     break;
@@ -163,9 +164,11 @@ void OpenServerCommand::updateVariables(char buf[]) {
                     break;
                 case 34:
                     iter = command::_generalSimVariable->find("/controls/switches/master-alt");
+//                    cout<<word<<"rmp!!"<<endl;
                     break;
                 case 35:
                     iter = command::_generalSimVariable->find("/engines/engine/rpm");
+//                    cout<<word<<"rmp!!"<<endl;
                     break;
                 default:
                     break;
@@ -175,6 +178,8 @@ void OpenServerCommand::updateVariables(char buf[]) {
             if(iter->second.second != nullptr) {
                 iter->second.second->setSimValue(val);
             }
+            word = "";
+            k++;
         }
     }
 }
