@@ -9,6 +9,7 @@
 #include "Command/CommandsClasses.h"
 #include "ShuntingAlgorithm/Interpeter.h"
 #include "Command/ClientCommand.h"
+#include "Data.h"
 class Parser {
 public:
     void parser(string&);

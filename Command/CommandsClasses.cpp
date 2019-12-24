@@ -146,20 +146,26 @@ vector<string> holdCommands::getInsideCommend() {
     return result;
 }
 bool ConditionParser::getCondition(string first, string op, string second) {
-    bool result = false;
-    if(op == ">") {
-         result = Parser::generalShuntingAlgorithem(first) > Parser::generalShuntingAlgorithem(second);
-    } else if (op == "<") {
-        result = Parser::generalShuntingAlgorithem(first) < Parser::generalShuntingAlgorithem(second);
-    } else if (op == "<=") {
-        result = Parser::generalShuntingAlgorithem(first) <= Parser::generalShuntingAlgorithem(second);
-    } else if (op == ">=") {
-        result = Parser::generalShuntingAlgorithem(first) >= Parser::generalShuntingAlgorithem(second);
-    } else if (op == "==") {
-        result = Parser::generalShuntingAlgorithem(first) == Parser::generalShuntingAlgorithem(second);
-    } else if (op == "!=") {
-        result = Parser::generalShuntingAlgorithem(first) != Parser::generalShuntingAlgorithem(second);
+    bool result;
+    int resultNum = Parser::generalShuntingAlgorithem(first + op + second);
+    if(resultNum == 0){
+        result = false;
+    } else{
+        result = true;
     }
+//    if(op == ">") {
+//         result = Parser::generalShuntingAlgorithem(first) > Parser::generalShuntingAlgorithem(second);
+//    } else if (op == "<") {
+//        result = Parser::generalShuntingAlgorithem(first) < Parser::generalShuntingAlgorithem(second);
+//    } else if (op == "<=") {
+//        result = Parser::generalShuntingAlgorithem(first) <= Parser::generalShuntingAlgorithem(second);
+//    } else if (op == ">=") {
+//        result = Parser::generalShuntingAlgorithem(first) >= Parser::generalShuntingAlgorithem(second);
+//    } else if (op == "==") {
+//        result = Parser::generalShuntingAlgorithem(first) == Parser::generalShuntingAlgorithem(second);
+//    } else if (op == "!=") {
+//        result = Parser::generalShuntingAlgorithem(first) != Parser::generalShuntingAlgorithem(second);
+//    }
     return result;
 }
 int activateFunc::execute() {

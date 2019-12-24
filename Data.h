@@ -4,6 +4,9 @@
 
 #ifndef JJKUUKYFKUTFYLIGUOHIL_DATA_H
 #define JJKUUKYFKUTFYLIGUOHIL_DATA_H
+
+#include <condition_variable>
+
 #define NUM_VARIABLE_XML 36
 #define V1 "/instrumentation/airspeed-indicator/indicated-speed-kt"
 #define V2 "/sim/time/warp"
@@ -42,9 +45,11 @@
 #define V35 "/controls/switches/master-alt"
 #define V36 "/engines/engine/rpm"
 
-class data {
+class Data {
 public:
-
+    static bool stopLoopServer;
+    static std::condition_variable cv;
+    static bool stopLoopClient;
 };
 
 #endif //JJKUUKYFKUTFYLIGUOHIL_DATA_H

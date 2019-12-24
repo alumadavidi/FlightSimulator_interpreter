@@ -3,11 +3,14 @@
 //
 
 #include "serverCommand.h"
-#include "../data.h"
+
+
+thread OpenServerCommand::serverThread;
 string OpenServerCommand::oldBuf;
 int OpenServerCommand::execute() {
     ++it;
-    _port = stoi(*it);
+    int numPort = Parser::generalShuntingAlgorithem(*it);
+    _port = (int)numPort;
     ++it;
     //bind the socket
     openSocketServer();
@@ -15,13 +18,13 @@ int OpenServerCommand::execute() {
     startTherad();
     return 2;
 }
-//open thread to read data from client in server
+//open thread to read Data from client in server
 void OpenServerCommand::startTherad() {
     serverThread = thread(&OpenServerCommand::serverRead, this);
 }
 void OpenServerCommand::serverRead() {
     cout<<"enter to serverRead"<<endl;
-    while(true){
+    while(!Data::stopLoopServer){
         if(!serverFinish) {
             mutexGeneralSimVariable.lock();
             char buf[1024] = {0};
@@ -34,6 +37,10 @@ void OpenServerCommand::serverRead() {
             mutexGeneralSimVariable.unlock();
         }
     }
+    close(socketfd);
+    cout<<"endLoopServer"<<endl;
+    Data::stopLoopServer = false;
+
 }
 
 //read one line from the client
@@ -173,7 +180,7 @@ void OpenServerCommand::updateVariables(char buf[]) {
                 default:
                     break;
             }
-            int val = stof(word);
+            float val = stof(word);
             iter->second.first = val;
             if(iter->second.second != nullptr) {
                 iter->second.second->setSimValue(val);
@@ -220,9 +227,12 @@ void OpenServerCommand::openSocketServer() {
     this->client_socket = client_socket;
 }
 OpenServerCommand::~OpenServerCommand() {
-    if(serverThread.joinable()){
-        serverThread.join();
-    }
-    close(socketfd);
+    cout<<"enter to disServer"<<endl;
+//    done = true;
+//    if(serverThread.joinable()){
+//        serverThread.join();
+//    }
+//    close(socketfd);
+    cout<<"end disServer"<<endl;
 
 }

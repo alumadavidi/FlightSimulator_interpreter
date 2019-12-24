@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include "Data.h"
 using namespace std;
 
 class variableAir :Expression {

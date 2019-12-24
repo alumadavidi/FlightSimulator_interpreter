@@ -3,12 +3,11 @@
 //
 
 #include "ClientCommand.h"
-ConnectCommand::~ConnectCommand() {
-    if(clientThread.joinable()){
-        clientThread.join();
-    }
-    close(clientSocket);
-}
+
+
+
+thread ConnectCommand::clientThread;
+ConnectCommand::~ConnectCommand() {}
 
 void ConnectCommand::startTherad() {
     clientThread = thread(&ConnectCommand::writeClient, this);
@@ -18,7 +17,8 @@ int ConnectCommand::execute() {
     ++it;
     _ip = (*it).c_str();
     ++it;
-    _port = stoi(*it);
+    int numPort = Parser::generalShuntingAlgorithem(*it);
+    _port = ((int)numPort);
     ++it;
     //bind socket client
     openSocketClient();
@@ -28,7 +28,7 @@ int ConnectCommand::execute() {
 }
 void ConnectCommand::writeClient() {
     string thisMessage;
-    while(true) {
+    while(!Data::stopLoopClient) {
         if(serverFinish) {
 //            cout<<"enter"<<serverFinish<<endl;
             mutexGeneralSimVariable.lock();
@@ -46,6 +46,9 @@ void ConnectCommand::writeClient() {
             mutexGeneralSimVariable.unlock();
         }
     }
+    close(clientSocket);
+    cout<<"endLoopClient"<<endl;
+    Data::stopLoopClient = false;
 
 }
 void ConnectCommand::setMessageToSend(string message) {

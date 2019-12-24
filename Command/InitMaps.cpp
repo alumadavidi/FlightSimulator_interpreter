@@ -5,7 +5,7 @@
 #include "InitMaps.h"
 #include "serverCommand.h"
 #include "ClientCommand.h"
-#include "../data.h"
+#include "../Data.h"
 
 //initalize the map with the command object
 void InitMap::initCommandsMap() {

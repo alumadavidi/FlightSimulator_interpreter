@@ -19,13 +19,18 @@ void Lexer::lexerTheFile(vector<string>* wordsToken, string& nameOfFile) {
             spliteLineToToken(wordsToken, lineToRead);
         }
     }
+    if(ruleText.is_open()){
+        ruleText.close();
+    }
 }
 //splite line by letter
 void Lexer::spliteLineToToken(vector<string>* wordsToken, string& lineToRead){
     string word = "";
+    int counter = 0;
     //parser letter by letter
     for (int i = 0; i < lineToRead.length(); i++) {
         if(lineToRead[i] == '('){
+            counter++;
             i++;
             addWordToVector(word, wordsToken);
             //if there "" - read until get the next ""
@@ -35,8 +40,38 @@ void Lexer::spliteLineToToken(vector<string>* wordsToken, string& lineToRead){
                     word += lineToRead[i];
                     i++;
                 }
-            } else{
-                word+=lineToRead[i];
+                i++;
+                addWordToVector(word, wordsToken);
+            } if(lineToRead[i] == ',') {
+                i++;
+                while(counter != 0){
+                    if(lineToRead[i] == '('){
+                        counter++;
+                    } if(lineToRead[i] == ')'){
+                        if(counter == 1){
+                            break;
+                        }
+                        counter--;
+                    }
+                    word += lineToRead[i];
+                    i++;
+                }
+                addWordToVector(word, wordsToken);
+            }
+            else {
+                while(counter != 0){
+                    if(lineToRead[i] == '('){
+                        counter++;
+                    } if(lineToRead[i] == ')'){
+                        if(counter == 1){
+                            break;
+                        }
+                        counter--;
+                    }
+                    word += lineToRead[i];
+                    i++;
+                }
+                addWordToVector(word, wordsToken);
             }
         }
         else if((lineToRead[i] == '{') || (lineToRead[i] == '}')) {

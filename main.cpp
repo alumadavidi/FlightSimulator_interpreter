@@ -14,8 +14,6 @@ bool command::serverFinish = false;
 //bool command::updateFinish = false;
 //std::mutexGeneralSimVariable command::m;
 std::condition_variable command::cv;
-//std::string command::data;
-//bool command::processed = false;
 int main(int argc, char **argv) {
     Parser parser;
     if(argc > 1){
@@ -32,6 +30,13 @@ int main(int argc, char **argv) {
         }
     } else {
         cout<<"error - no file"<<endl;
+    }
+    //close thrw
+    if(ConnectCommand::clientThread.joinable()){
+        ConnectCommand::clientThread.join();
+    }
+    if(OpenServerCommand::serverThread.joinable()){
+        OpenServerCommand::serverThread.join();
     }
     return 0;
 }

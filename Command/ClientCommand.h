@@ -14,19 +14,21 @@
 #include <netinet/in.h>
 #include <cstring>
 #include "queue"
+#include "../Parser.h"
+
 using namespace std;
 class ConnectCommand : public command {
-    thread clientThread;
     int _port;
     const char *_ip;
     int clientSocket;
 public:
+    static thread clientThread;
     virtual int execute();
     void openSocketClient();
     void writeClient();
     void startTherad();
     static void setMessageToSend(string);
-    ConnectCommand(): clientThread(){};
+    ConnectCommand()/*: clientThread()*/{};
     ~ConnectCommand();
 
 };

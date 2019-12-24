@@ -9,7 +9,13 @@ void Parser::parser(string& fileName) {
     vector<string> spliteToken;
     //init the spliteToken with vector string of words from file
     lexer.lexerTheFile(&spliteToken, fileName);
-   parserByTokens(spliteToken);
+    parserByTokens(spliteToken);
+    Data::stopLoopServer = true;
+    Data::stopLoopClient = true;
+    while(Data::stopLoopServer || Data::stopLoopClient){
+        sleep(1);
+    }
+//    sleep(30);
 }
 void Parser::parserByTokens(vector<string> &spliteToken) {
     int index = 0;
@@ -33,7 +39,6 @@ void Parser::parserByTokens(vector<string> &spliteToken) {
             }
 
         }
-
 }
 
 

@@ -14,19 +14,23 @@
 #include <string>
 #include <iostream>
 #include <arpa/inet.h>
+#include "../Data.h"
+#include "../Parser.h"
 class OpenServerCommand : public command {
-    thread serverThread;
+
     int _port;
+    bool done;
     int client_socket;
     int socketfd;
     static string oldBuf;
 public:
+    static thread serverThread;
     virtual int execute();
     void openSocketServer();
     void startTherad();
     void serverRead();
     void updateVariables(char[]);
-    OpenServerCommand(): serverThread() {};
+    OpenServerCommand()/*: serverThread() */{};
     ~OpenServerCommand();
 };
 #endif //EX316_12_SERVERCOMMAND_H

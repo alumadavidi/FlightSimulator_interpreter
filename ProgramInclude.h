@@ -20,4 +20,6 @@
 #include "ShuntingAlgorithm/BinaryAndUnaryAbstract.h"
 #include "Lexer.h"
 #include "VariableAir.h"
+#include "Command/serverCommand.h"
+#include "Data.h"
 #endif //UNTITLED11_PROGRAMINCLUDE_H
