@@ -87,10 +87,6 @@ int Print::execute() {
     variableAir *var;
     if(iter != command::_progTable->find(toPrint)) { // print variable
         var = command::_progTable->find(toPrint)->second;
-        name = command::_progTable->find(toPrint)->first;
-        if(name.compare("alt") == 0 && var->calculate() > 995){
-            cout<<"stop"<<endl;
-        }
         cout << var->calculate() << endl;
     } else {
         cout << toPrint << endl;
@@ -104,8 +100,6 @@ int Sleep::execute() {
     std::string::size_type sz;   // convert string to long
     long time = std::stol (timeS,&sz);
     std::this_thread::sleep_for(std::chrono::milliseconds(time));
-//    sleep(30);
-    //TODO sleep for x miliseconds
     ++it;
     return 2;
 }

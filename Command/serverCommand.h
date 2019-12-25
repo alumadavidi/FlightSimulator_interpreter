@@ -23,8 +23,8 @@ class OpenServerCommand : public command {
     int client_socket;
     int socketfd;
     static string oldBuf;
+    thread serverThread;
 public:
-    static thread serverThread;
     virtual int execute();
     void openSocketServer();
     void startTherad();

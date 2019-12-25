@@ -26,6 +26,7 @@ public:
     virtual float calculate();
     string getDirection();
     string getSim();
+    ~variableAir();
 
 };
 #endif //UNTITLED11_VARIABLEAIR_H

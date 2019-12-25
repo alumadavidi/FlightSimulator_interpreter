@@ -21,14 +21,14 @@ class ConnectCommand : public command {
     int _port;
     const char *_ip;
     int clientSocket;
+    thread clientThread;
 public:
-    static thread clientThread;
     virtual int execute();
     void openSocketClient();
     void writeClient();
     void startTherad();
     static void setMessageToSend(string);
-    ConnectCommand()/*: clientThread()*/{};
+    ConnectCommand(): clientThread() {};
     ~ConnectCommand();
 
 };

@@ -37,3 +37,6 @@ string variableAir::getDirection() {
 string variableAir::getSim() {
     return this->_sim;
 }
+variableAir::~variableAir() {
+
+}

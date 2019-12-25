@@ -5,7 +5,7 @@
 #include "serverCommand.h"
 
 
-thread OpenServerCommand::serverThread;
+//thread OpenServerCommand::serverThread;
 string OpenServerCommand::oldBuf;
 int OpenServerCommand::execute() {
     ++it;
@@ -229,10 +229,10 @@ void OpenServerCommand::openSocketServer() {
 OpenServerCommand::~OpenServerCommand() {
     cout<<"enter to disServer"<<endl;
 //    done = true;
-//    if(serverThread.joinable()){
-//        serverThread.join();
-//    }
-//    close(socketfd);
+    if(serverThread.joinable()){
+        serverThread.join();
+    }
+    close(socketfd);
     cout<<"end disServer"<<endl;
 
 }

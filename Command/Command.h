@@ -18,7 +18,6 @@ using namespace std;
 class command {
 
 public:
-   // static vector<string>* _copyInput; //copy of the vector
     static unordered_map<string, variableAir*>* _progTable; //program vars
     static unordered_map<string, variableAir>* _simTable; //flight sim vars
     static unordered_map<string, command*>* _commandsMap;
@@ -27,9 +26,6 @@ public:
     static unordered_map<string, pair<float,variableAir*>>* _generalSimVariable;
     static queue<string> messageToSend;
     static std::mutex mutexGeneralSimVariable;
-    //static std::mutex mutexMessage;
-    //static bool updateFinish;
-    static std::condition_variable cv;
     static std::string data;
     static bool serverFinish;
     static bool processed;

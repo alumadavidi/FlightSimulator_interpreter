@@ -6,8 +6,11 @@
 
 
 
-thread ConnectCommand::clientThread;
-ConnectCommand::~ConnectCommand() {}
+//thread ConnectCommand::clientThread;
+ConnectCommand::~ConnectCommand() {
+    close(clientSocket);
+    clientThread.join();
+}
 
 void ConnectCommand::startTherad() {
     clientThread = thread(&ConnectCommand::writeClient, this);
@@ -46,7 +49,7 @@ void ConnectCommand::writeClient() {
             mutexGeneralSimVariable.unlock();
         }
     }
-    close(clientSocket);
+
     cout<<"endLoopClient"<<endl;
     Data::stopLoopClient = false;
 

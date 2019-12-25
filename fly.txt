@@ -54,17 +54,4 @@ while rpm <= 750 {
 }
 Sleep(5000)
 Print("let's = fly")
-var h0 = heading
-breaks = 0
-throttle = 1
-while alt < 1000 {
-  rudder = (h0 - heading)/80
-  aileron = -roll / 70
-  Print(aileron)
-  elevator = pitch / 50
-  blc=1
-  Sleep(50)
-  blc=0
-  Sleep(250)
-}
 Print("done")

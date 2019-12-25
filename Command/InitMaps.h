@@ -15,6 +15,7 @@ public:
     void initProgTable();
     void initfuncTable();
     void initGeneralSimVariable();
+    void eraseMap();
 };
 
 

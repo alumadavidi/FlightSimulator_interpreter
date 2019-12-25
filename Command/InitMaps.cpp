@@ -76,3 +76,67 @@ void InitMap::initalizeAllMaps() {
     initProgTable();
     initCommandsMap();
 }
+void InitMap::eraseMap() {
+
+    //delete progTable
+    unordered_map<string, variableAir*>::iterator iterProgTable;
+    unordered_map<string, pair<float, variableAir*>>::iterator iter;
+    /*for (iterProgTable = command::_progTable->begin();
+         iterProgTable != command::_progTable->end(); iterProgTable++){
+        variableAir* var = iterProgTable->second;
+        variableAir* varSim;
+        if(var != nullptr){
+            if (iter != command::_generalSimVariable->find(var->getSim())) { // key in map
+                varSim = command::_generalSimVariable->find(var->getSim())->second.second;
+                delete iter->second.second;
+                iterProgTable->second = nullptr;
+                iter->second.second = nullptr;
+            } else {
+                delete iterProgTable->second;
+                iterProgTable->second = nullptr;
+            }
+            command::_progTable->erase(iterProgTable);
+        }
+    }*/
+    delete command::_progTable;
+
+
+
+    //delte generalSimVariable
+    unordered_map<string, pair<float, variableAir*>>::iterator iterSimTable;
+    /*for (iterSimTable = command::_generalSimVariable->begin();
+    iterSimTable != command::_generalSimVariable->end(); iterSimTable++){
+
+        variableAir* var = iterSimTable->second.second;
+
+       if(var != nullptr) {
+            delete var;
+           iterSimTable->second.second = nullptr;
+        }
+    }*/
+    delete command::_generalSimVariable;
+
+    //delete funcTable
+    unordered_map<string, pair<string,vector<string>*>>::iterator iterFuncable;
+    /*for (iterFuncable = command::_funcsMap->begin();
+    iterFuncable != command::_funcsMap->end(); iterFuncable++){
+        vector<string>* vector = iterFuncable->second.second;
+        if(vector != nullptr){
+            delete vector;
+            iterFuncable->second.second = nullptr;
+        }
+    }*/
+    delete command::_funcsMap;
+
+
+    //delete commandMap
+    unordered_map<string, command*>::iterator iterCommandMap;
+    for (iterCommandMap = command::_commandsMap->begin();
+         iterCommandMap != command::_commandsMap->end(); iterCommandMap++){
+        command* command = iterCommandMap->second;
+        if(command != nullptr){
+            delete command;
+        }
+    }
+    delete command::_commandsMap;
+}
