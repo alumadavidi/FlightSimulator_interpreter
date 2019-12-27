@@ -21,7 +21,7 @@ void variableAir::setSimValue(float value) {
 float variableAir::calculate() {
     if(_direction== "<-") {
         return _simValue;
-    } else if(_direction== "->") {
+    } else {
         return _progValue;
     }
 }

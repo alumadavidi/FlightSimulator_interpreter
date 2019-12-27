@@ -71,13 +71,38 @@ int IfCommand::execute() {
 int FuncCommand::execute() { //for funcion
     string funcName = *it;
     ++it;//func name
-    ++it;//for var
-    string var = *it;
+    counter++;
+    string temp = *it;
+    if(temp.substr(0,3)!= "var") {
+        activateFunc(funcName);
+    } else {
+        string var = temp.substr(4, temp.length() - 4);
+        it++;
+        counter ++;
+        vector<string> inCommand = getInsideCommend();
+        vector<string>* temp = &inCommand;
+        // get the inside of the loop to new vector
+        _funcsMap->insert({funcName, {var, temp}});
+    }
+    int counterTemp = counter;
+    counter = 0;
+    return counterTemp;
+}
+void FuncCommand::activateFunc(string funcName) {
+    Parser parser;
+    vector<string> inCommands = *command::_funcsMap->find(funcName)->second.second;
+    string key = command::_funcsMap->find(funcName)->second.first;
+    variableAir* localVar = new variableAir("", "");
+    string paramVal = *it;
     it++;
-    counter = 3;
-    vector<string> inCommand = getInsideCommend();
-     // get the inside of the loop to new vector
-    _funcsMap->insert({funcName, {var, &inCommand}});
+    counter++;
+    _progTable->insert({key, localVar});
+    parser.updateValueInShuntingAlgo(key, paramVal);
+    vector<string>::iterator tempIt = it;
+    parser.parserByTokens(inCommands);
+    delete localVar;
+    _progTable->erase(key);
+    it = tempIt;
 }
 int Print::execute() {
     ++it;
@@ -161,20 +186,4 @@ bool ConditionParser::getCondition(string first, string op, string second) {
 //        result = Parser::generalShuntingAlgorithem(first) != Parser::generalShuntingAlgorithem(second);
 //    }
     return result;
-}
-int activateFunc::execute() {
-    Parser parser;
-    vector<string> inCommands = *command::_funcsMap->find(*it)->second.second;
-    string key = command::_funcsMap->find(*it)->second.first;
-    it++;
-    variableAir* localVar = new variableAir("", "");
-    string paramVal = *it;
-    _progTable->insert({key, localVar});
-    parser.updateValueInShuntingAlgo(key, paramVal);
-    it++;
-    vector<string>::iterator tempIt = it;
-    parser.parserByTokens(inCommands);
-    _progTable->erase(key);
-    it = tempIt;
-    return 2;
 }

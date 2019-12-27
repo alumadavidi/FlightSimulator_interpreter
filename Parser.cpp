@@ -24,21 +24,20 @@ void Parser::parserByTokens(vector<string> &spliteToken) {
     if(spliteToken.size() > 0) {
         vector<string>::iterator copyIter = spliteToken.begin();
         while (copyIter != spliteToken.end()) {
-
-                if (command::_commandsMap->find(*copyIter) != command::_commandsMap->end()) {
-                    //get command
-                    c = command::_commandsMap->find(*copyIter)->second;
-                    index = c->execute();
-                } else if (command::_progTable->find(*copyIter) != command::_progTable->end()) {
-                    index = updateVar();
-                } else if (command::_funcsMap->find(*copyIter) != command::_funcsMap->end()) {
-                    c = new activateFunc();
-                    index = c->execute();
-                }
-                copyIter += index;
+            if (command::_commandsMap->find(*copyIter) != command::_commandsMap->end()) {
+                //get command
+                c = command::_commandsMap->find(*copyIter)->second;
+                index = c->execute();
+            } else if (command::_progTable->find(*copyIter) != command::_progTable->end()) {
+                index = updateVar();
+            } else {
+                c = new FuncCommand();
+                index = c->execute();
             }
-
+            copyIter += index;
         }
+
+    }
 }
 
 

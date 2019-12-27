@@ -15,6 +15,7 @@
 #include <unistd.h>
 #include <netinet/in.h>
 #include "../Parser.h"
+#include "../Data.h"
 class holdCommands : public command { //should to be abstract?
 protected:
     int counter;
@@ -54,7 +55,7 @@ protected:
     vector<string> params;
 public:
     virtual int execute();
-    void activateFunc();
+    void activateFunc(string);
 };
 
 class Print : public command {
@@ -63,11 +64,6 @@ public:
 };
 
 class Sleep : public command {
-public:
-    virtual int execute();
-};
-
-class activateFunc : public FuncCommand {
 public:
     virtual int execute();
 };
