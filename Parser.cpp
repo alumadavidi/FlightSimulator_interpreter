@@ -19,16 +19,16 @@ void Parser::parser(string& fileName) {
 }
 void Parser::parserByTokens(vector<string> &spliteToken) {
     int index = 0;
-    command::it = spliteToken.begin();
+    Data::it = spliteToken.begin();
     command* c;
     if(spliteToken.size() > 0) {
         vector<string>::iterator copyIter = spliteToken.begin();
         while (copyIter != spliteToken.end()) {
-            if (command::_commandsMap->find(*copyIter) != command::_commandsMap->end()) {
+            if (Data::_commandsMap->find(*copyIter) != Data::_commandsMap->end()) {
                 //get command
-                c = command::_commandsMap->find(*copyIter)->second;
+                c = Data::_commandsMap->find(*copyIter)->second;
                 index = c->execute();
-            } else if (command::_progTable->find(*copyIter) != command::_progTable->end()) {
+            } else if (Data::_progTable->find(*copyIter) != Data::_progTable->end()) {
                 index = updateVar();
             } else {
                 c = new FuncCommand();
@@ -46,17 +46,17 @@ void Parser::parserByTokens(vector<string> &spliteToken) {
 
 //update value of variable that exist is progMap
 int Parser::updateVar() {
-    vector<string>::iterator copyIt = command::it;
-    unordered_map<string, variableAir>::iterator iter;
+    vector<string>::iterator copyIt = Data::it;
+    unordered_map<string, ProgVariables>::iterator iter;
     if(*(++copyIt) != "=") {
         return 0;
     }
-    string key = *command::it;
-    variableAir *var;
-    command::it++; //erase var
-    command::it++;//erase sign
-    string left = *command::it;
-    command::it++;
+    string key = *Data::it;
+    ProgVariables *var;
+    Data::it++; //erase var
+    Data::it++;//erase sign
+    string left = *Data::it;
+    Data::it++;
     //update the value
     updateValueInShuntingAlgo(left, key);
     return 3;
@@ -66,11 +66,11 @@ void Parser::updateValueInShuntingAlgo(const string & variable,const string & ke
     string message;
 //    if (command::updateFinish) {
 //        command::mutexMessage.lock();
-        unordered_map<string, variableAir*>::iterator iter;
-        variableAir *var;
+        unordered_map<string, ProgVariables*>::iterator iter;
+        ProgVariables *var;
         float num;
-        if (iter != command::_progTable->find(key)) { // key in map
-            var = command::_progTable->find(key)->second;
+        if (iter != Data::_progTable->find(key)) { // key in map
+            var = Data::_progTable->find(key)->second;
         }
         //get the result
 

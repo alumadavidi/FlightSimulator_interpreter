@@ -8,10 +8,10 @@
 //thread OpenServerCommand::serverThread;
 string OpenServerCommand::oldBuf;
 int OpenServerCommand::execute() {
-    ++it;
-    int numPort = Parser::generalShuntingAlgorithem(*it);
+    ++Data::it;
+    int numPort = Parser::generalShuntingAlgorithem(*Data::it);
     _port = (int)numPort;
-    ++it;
+    ++Data::it;
     //bind the socket
     openSocketServer();
     //open thread in background that read from the client
@@ -25,16 +25,16 @@ void OpenServerCommand::startTherad() {
 void OpenServerCommand::serverRead() {
     cout<<"enter to serverRead"<<endl;
     while(!Data::stopLoopServer){
-        if(!serverFinish) {
-            mutexGeneralSimVariable.lock();
+        if(!Data::serverFinish) {
+            Data::mutexGeneralSimVariable.lock();
             char buf[1024] = {0};
             int n = read(client_socket, buf, 1024);
             if (n == -1) {
                 cerr << "error in read line from clinet" << endl;
             }
             updateVariables(buf);
-            serverFinish = true;
-            mutexGeneralSimVariable.unlock();
+            Data::serverFinish = true;
+            Data::mutexGeneralSimVariable.unlock();
         }
     }
     close(socketfd);
@@ -60,7 +60,7 @@ void OpenServerCommand::updateVariables(char buf[]) {
     int k = 0;
     //update sim map
     //map<string, float>::iterator mapIt = _generalSimVariable->begin();
-    unordered_map<string, pair<float,variableAir*>>::iterator iter;
+    unordered_map<string, pair<float,ProgVariables*>>::iterator iter;
     for(int i = 0; i < line.length(); i++) {
         char c = line[i];
         if(c != ',' && c != '\n') {
@@ -68,114 +68,112 @@ void OpenServerCommand::updateVariables(char buf[]) {
         } else {
             switch (k) {
                 case 0:
-                    iter = command::_generalSimVariable->find("/instrumentation/airspeed-indicator/indicated-speed-kt");
+                    iter = Data::_generalSimVariable->find(V1);
                     break;
                 case 1:
-                    iter = command::_generalSimVariable->find("/sim/time/warp");
+                    iter = Data::_generalSimVariable->find(V2);
                     break;
                 case 2:
-                    iter = command::_generalSimVariable->find("/controls/switches/magnetos");
+                    iter = Data::_generalSimVariable->find(V3);
                     break;
                 case 3:
-                    iter = command::_generalSimVariable->find("/instrumentation/heading-indicator/offset-deg");
+                    iter = Data::_generalSimVariable->find(V4);
                     break;
                 case 4:
-                    iter = command::_generalSimVariable->find("/instrumentation/altimeter/indicated-altitude-ft");
+                    iter = Data::_generalSimVariable->find(V5);
                     break;
                 case 5:
-                    iter = command::_generalSimVariable->find("/instrumentation/altimeter/pressure-alt-ft");
+                    iter = Data::_generalSimVariable->find(V6);
                     break;
                 case 6:
-                    iter = command::_generalSimVariable->find("/instrumentation/attitude-indicator/indicated-pitch-deg");
+                    iter = Data::_generalSimVariable->find(V7);
                     break;
                 case 7:
-                    iter = command::_generalSimVariable->find("/instrumentation/attitude-indicator/indicated-roll-deg");
+                    iter = Data::_generalSimVariable->find(V8);
                     break;
                 case 8:
-                    iter = command::_generalSimVariable->find("/instrumentation/attitude-indicator/internal-pitch-deg");
+                    iter = Data::_generalSimVariable->find(V9);
                     break;
                 case 9:
-                    iter = command::_generalSimVariable->find("/instrumentation/attitude-indicator/internal-roll-deg");
+                    iter = Data::_generalSimVariable->find(V10);
                     break;
                 case 10:
-                    iter = command::_generalSimVariable->find("/instrumentation/encoder/indicated-altitude-ft");
+                    iter = Data::_generalSimVariable->find(V11);
                     break;
                 case 11:
-                    iter = command::_generalSimVariable->find("/instrumentation/encoder/pressure-alt-ft");
+                    iter = Data::_generalSimVariable->find(V12);
                     break;
                 case 12:
-                    iter = command::_generalSimVariable->find("/instrumentation/gps/indicated-altitude-ft");
+                    iter = Data::_generalSimVariable->find(V13);
                     break;
                 case 13:
-                    iter = command::_generalSimVariable->find("/instrumentation/gps/indicated-ground-speed-kt");
+                    iter = Data::_generalSimVariable->find(V14);
                     break;
                 case 14:
-                    iter = command::_generalSimVariable->find("/instrumentation/gps/indicated-vertical-speed");
+                    iter = Data::_generalSimVariable->find(V15);
                     break;
                 case 15:
-                    iter = command::_generalSimVariable->find("/instrumentation/heading-indicator/indicated-heading-deg");
+                    iter = Data::_generalSimVariable->find(V16);
                     break;
                 case 16:
-                    iter = command::_generalSimVariable->find("/instrumentation/magnetic-compass/indicated-heading-deg");
+                    iter = Data::_generalSimVariable->find(V17);
                     break;
                 case 17:
-                    iter = command::_generalSimVariable->find("/instrumentation/slip-skid-ball/indicated-slip-skid");
+                    iter = Data::_generalSimVariable->find(V18);
                     break;
                 case 18:
-                    iter = command::_generalSimVariable->find("/instrumentation/turn-indicator/indicated-turn-rate");
+                    iter = Data::_generalSimVariable->find(V19);
                     break;
                 case 19:
-                    iter = command::_generalSimVariable->find("/instrumentation/vertical-speed-indicator/indicated-speed-fpm");
+                    iter = Data::_generalSimVariable->find(V20);
                     break;
                 case 20:
-                    iter = command::_generalSimVariable->find("/controls/flight/aileron");
+                    iter = Data::_generalSimVariable->find(V21);
                     break;
                 case 21:
-                    iter = command::_generalSimVariable->find("/controls/flight/elevator");
+                    iter = Data::_generalSimVariable->find(V22);
                     break;
                 case 22:
-                    iter = command::_generalSimVariable->find("/controls/flight/rudder");
+                    iter = Data::_generalSimVariable->find(V23);
                     break;
                 case 23:
-                    iter = command::_generalSimVariable->find("/controls/flight/flaps");
+                    iter = Data::_generalSimVariable->find(V24);
                     break;
                 case 24:
-                    iter = command::_generalSimVariable->find("/controls/engines/engine/throttle");
+                    iter = Data::_generalSimVariable->find(V25);
                     break;
                 case 25:
-                    iter = command::_generalSimVariable->find("/controls/engines/current-engine/throttle");
+                    iter = Data::_generalSimVariable->find(V26);
                     break;
                 case 26:
-                    iter = command::_generalSimVariable->find("/controls/switches/master-avionics");
+                    iter = Data::_generalSimVariable->find(V27);
                     break;
                 case 27:
-                    iter = command::_generalSimVariable->find("/controls/switches/starter");
+                    iter = Data::_generalSimVariable->find(V28);
                     break;
                 case 28:
-                    iter = command::_generalSimVariable->find("/engines/active-engine/auto-start");
+                    iter = Data::_generalSimVariable->find(V29);
                     break;
                 case 29:
-                    iter = command::_generalSimVariable->find("/controls/flight/speedbrake");
+                    iter = Data::_generalSimVariable->find(V30);
                     break;
                 case 30:
-                    iter = command::_generalSimVariable->find("/sim/model/c172p/brake-parking");
+                    iter = Data::_generalSimVariable->find(V31);
                     break;
                 case 31:
-                    iter = command::_generalSimVariable->find("/controls/engines/engine/primer");
+                    iter = Data::_generalSimVariable->find(V32);
                     break;
                 case 32:
-                    iter = command::_generalSimVariable->find("/controls/engines/current-engine/mixture");
+                    iter = Data::_generalSimVariable->find(V33);
                     break;
                 case 33:
-                    iter = command::_generalSimVariable->find("/controls/switches/master-bat");
+                    iter = Data::_generalSimVariable->find(V34);
                     break;
                 case 34:
-                    iter = command::_generalSimVariable->find("/controls/switches/master-alt");
-//                    cout<<word<<"rmp!!"<<endl;
+                    iter = Data::_generalSimVariable->find(V35);
                     break;
                 case 35:
-                    iter = command::_generalSimVariable->find("/engines/engine/rpm");
-//                    cout<<word<<"rmp!!"<<endl;
+                    iter = Data::_generalSimVariable->find(V36);;
                     break;
                 default:
                     break;

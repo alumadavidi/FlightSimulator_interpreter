@@ -4,25 +4,21 @@
 
 #include "ClientCommand.h"
 
-
-
-//thread ConnectCommand::clientThread;
 ConnectCommand::~ConnectCommand() {
     close(clientSocket);
     clientThread.join();
 }
-
 void ConnectCommand::startTherad() {
     clientThread = thread(&ConnectCommand::writeClient, this);
 }
 int ConnectCommand::execute() {
     cout<<"enter to connect client\n"<<endl;
-    ++it;
-    _ip = (*it).c_str();
-    ++it;
-    int numPort = Parser::generalShuntingAlgorithem(*it);
+    ++Data::it;
+    _ip = (*Data::it).c_str();
+    ++Data::it;
+    int numPort = Parser::generalShuntingAlgorithem(*Data::it);
     _port = ((int)numPort);
-    ++it;
+    ++Data::it;
     //bind socket client
     openSocketClient();
     //send to server
@@ -32,12 +28,11 @@ int ConnectCommand::execute() {
 void ConnectCommand::writeClient() {
     string thisMessage;
     while(!Data::stopLoopClient) {
-        if(serverFinish) {
-//            cout<<"enter"<<serverFinish<<endl;
-            mutexGeneralSimVariable.lock();
-            while (!messageToSend.empty()) {
-                thisMessage = messageToSend.front();
-                messageToSend.pop();
+        if(Data::serverFinish) {
+            Data::mutexGeneralSimVariable.lock();
+            while (!Data::messageToSend.empty()) {
+                thisMessage = Data::messageToSend.front();
+                Data::messageToSend.pop();
                 int is_sent = send(clientSocket, thisMessage.c_str(), thisMessage.length(), 0);
                 if (is_sent == -1) {
                     std::cout << "Error sending message" << std::endl;
@@ -45,18 +40,15 @@ void ConnectCommand::writeClient() {
                     std::cout << "send: " << thisMessage << std::endl;
                 }
             }
-            serverFinish = false;
-            mutexGeneralSimVariable.unlock();
+            Data::serverFinish = false;
+            Data::mutexGeneralSimVariable.unlock();
         }
     }
-
-    cout<<"endLoopClient"<<endl;
     Data::stopLoopClient = false;
 
 }
 void ConnectCommand::setMessageToSend(string message) {
-
-    messageToSend.push(message);
+    Data::messageToSend.push(message);
 }
 void ConnectCommand::openSocketClient() {
     //create socket
@@ -80,5 +72,5 @@ void ConnectCommand::openSocketClient() {
         std::cout<<"Client is now connected to server" <<std::endl;
     }
     this->clientSocket = client_socket;
-
 }
+

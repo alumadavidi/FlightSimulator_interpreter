@@ -7,6 +7,7 @@
 
 #include "Command.h"
 #include "CommandsClasses.h"
+#include "../Data.h"
 class InitMap {
 public:
     void initalizeAllMaps();

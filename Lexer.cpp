@@ -148,7 +148,13 @@ void Lexer::addWordToVector(string& word , vector<string>* wordsToken) {
 void Lexer::openbracketTreatment(string& word, vector<string>* wordsToken) {
     if(word[word.length() - 1] == '{'){
         word = word.substr(0, word.length() - 1);
-        wordsToken->push_back(word);
+        string temp;
+        for (char c : word) {
+            if(c != ' ') {
+                temp.push_back(c);
+            }
+        }
+        wordsToken->push_back(temp);
         wordsToken->push_back("{");
 
     } else{

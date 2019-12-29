@@ -4,6 +4,7 @@
 
 #include "Interpeter.h"
 #include "../Command/Command.h"
+#include "../Data.h"
 
 
 Interpreter::Interpreter() {
@@ -109,7 +110,7 @@ void Interpreter::replaceNameInValue() {
                 && !token.compare("*") == 0 && !token.compare("<") == 0 && !token.compare(">") == 0
                 && !token.compare("<=") == 0 && !token.compare(">=") == 0
                 && !token.compare("==") == 0 && !token.compare("!=") == 0) {
-                for (auto iter : *command::_progTable) {
+                for (auto iter : *Data::_progTable) {
                     if (iter.first.compare(token) == 0) {
                         // convert string to double
                         float num = iter.second->calculate();

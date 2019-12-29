@@ -1,11 +1,22 @@
 //
 // Created by user on 20/12/2019.
 //
+#pragma once
 
 #ifndef JJKUUKYFKUTFYLIGUOHIL_DATA_H
 #define JJKUUKYFKUTFYLIGUOHIL_DATA_H
 
+#include <string>
+#include <vector>
+#include <unordered_map>
+#include <map>
+#include <mutex>
 #include <condition_variable>
+#include <queue>
+#include "Command/Command.h"
+#include "ProgVariables.h"
+#include "ProgramInclude.h"
+
 
 #define NUM_VARIABLE_XML 36
 #define V1 "/instrumentation/airspeed-indicator/indicated-speed-kt"
@@ -47,9 +58,18 @@
 
 class Data {
 public:
+    static unordered_map<string, ProgVariables*>* _progTable; //program vars
+    static unordered_map<string, command*>* _commandsMap;
+    static unordered_map<string, pair<string,vector<string>*>>* _funcsMap;
+    static vector<string>::iterator it;
+    static unordered_map<string, pair<float,ProgVariables*>>* _generalSimVariable;
+    static queue<string> messageToSend;
+    static std::mutex mutexGeneralSimVariable;
+    static std::string data;
+    static bool serverFinish;
     static bool stopLoopServer;
-    static std::condition_variable cv;
     static bool stopLoopClient;
+
 };
 
 #endif //JJKUUKYFKUTFYLIGUOHIL_DATA_H

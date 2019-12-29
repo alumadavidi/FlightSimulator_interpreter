@@ -16,7 +16,7 @@
 #include "BasicVar.h"
 #include "BinaryOperators.h"
 #include "UnaryOperators.h"
-#include "../VariableAir.h"
+#include "../ProgVariables.h"
 #include <unordered_map>
 using namespace std;
 
@@ -27,12 +27,12 @@ private:
     stack<Expression*> stackExpression;
     stack<string> bracket;
     queue<string> queueString;
-    //list<variableAir*>* listVeriabels;
+    //list<ProgVariables*>* listVeriabels;
 
 public:
     Interpreter();
     ~Interpreter();
-    void setListVeriabels(list<variableAir *> *listVeriabels);
+    void setListVeriabels(list<ProgVariables *> *listVeriabels);
     void spliteToToken(string);
     //void spliteSetVeriable(const string&);
     void spliteByDemiliter(const string& inputString,
