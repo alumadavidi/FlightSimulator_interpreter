@@ -117,7 +117,11 @@ void FuncCommand::activateFunc(string funcName) {
     Data::it++;
     counter++;
     Data::_progTable->insert({key, localVar});
-    parser.updateValueInShuntingAlgo(paramVal, key);
+    try {
+        parser.updateValueInShuntingAlgo(paramVal, key);
+    } catch (const char* e){
+        throw "failed in activateFunc in algo";
+    }
     vector<string>::iterator tempIt = Data::it;
     parser.parserByTokens(inCommands);
     delete localVar;
@@ -153,12 +157,17 @@ int Sleep::execute() {
     float time;
     ++Data::it;
     string timeS = *(Data::it);
-    time = Parser::generalShuntingAlgorithem(timeS);
-    std::string::size_type sz;   // convert string to long
-//    long time = std::stol (timeS,&sz);
-    std::this_thread::sleep_for(std::chrono::milliseconds((long)time));
-    ++Data::it;
-    return 2;
+    try {
+        time = Parser::generalShuntingAlgorithem(timeS);
+        // convert string to long
+        std::string::size_type sz;
+        std::this_thread::sleep_for(std::chrono::milliseconds((long)time));
+        ++Data::it;
+        return 2;
+    } catch (const char* e){
+        throw "failed in algo of Sleep::execute";
+    }
+
 }
 //initalize the condition for loop and if command
 void ConditionParser::init() {

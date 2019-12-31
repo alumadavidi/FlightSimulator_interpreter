@@ -6,14 +6,19 @@
 
 int OpenServerCommand::execute() {
     ++Data::it;
-    int numPort = Parser::generalShuntingAlgorithem(*Data::it);
-    _port = (int)numPort;
-    ++Data::it;
-    //bind the socket
-    openSocketServer();
-    //open thread in background that read from the client
-    startTherad();
-    return 2;
+    try {
+        int numPort = Parser::generalShuntingAlgorithem(*Data::it);
+        _port = (int)numPort;
+        ++Data::it;
+        //bind the socket
+        openSocketServer();
+        //open thread in background that read from the client
+        startTherad();
+        return 2;
+    } catch (const  char* e){
+        throw "failed in algo in OpenServerCommand::execute()";
+    }
+
 }
 //open thread to read Data from client in server
 void OpenServerCommand::startTherad() {
@@ -226,5 +231,4 @@ OpenServerCommand::~OpenServerCommand() {
     }
     close(socketfd);
     cout<<"end disServer"<<endl;
-
 }
