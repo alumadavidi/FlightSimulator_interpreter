@@ -4,9 +4,6 @@
 
 #include "serverCommand.h"
 
-
-//thread OpenServerCommand::serverThread;
-string OpenServerCommand::oldBuf;
 int OpenServerCommand::execute() {
     ++Data::it;
     int numPort = Parser::generalShuntingAlgorithem(*Data::it);
@@ -22,6 +19,7 @@ int OpenServerCommand::execute() {
 void OpenServerCommand::startTherad() {
     serverThread = thread(&OpenServerCommand::serverRead, this);
 }
+//Read from the simulator and update the variable
 void OpenServerCommand::serverRead() {
     cout<<"enter to serverRead"<<endl;
     while(!Data::stopLoopServer){
@@ -45,23 +43,19 @@ void OpenServerCommand::serverRead() {
 
 //read one line from the client
 void OpenServerCommand::updateVariables(char buf[]) {
-    //cout<<"enter update\n"<<endl;
     string bufString = buf;
     int startOfLine = 0;
     int endOfLine = bufString.find('\n');
     int j = bufString.find('\n',endOfLine + 1);
-    if (j < bufString.length()){
+    if ((unsigned int) j < bufString.length()){
         startOfLine = endOfLine + 1;
         endOfLine = j;
     }
     string word = "";
     string line = bufString.substr(startOfLine, endOfLine - startOfLine + 1);
-//    cout<<line<<endl;
     int k = 0;
-    //update sim map
-    //map<string, float>::iterator mapIt = _generalSimVariable->begin();
     unordered_map<string, pair<float,ProgVariables*>>::iterator iter;
-    for(int i = 0; i < line.length(); i++) {
+    for(int i = 0; (unsigned int)i < line.length(); i++) {
         char c = line[i];
         if(c != ',' && c != '\n') {
             word += c;
@@ -188,15 +182,15 @@ void OpenServerCommand::updateVariables(char buf[]) {
         }
     }
 }
-
+//Open socket for the server
 void OpenServerCommand::openSocketServer() {
     //create socket
-    int socketfd = socket(AF_INET, SOCK_STREAM, 0);
+    int socketFd = socket(AF_INET, SOCK_STREAM, 0);
     if (socketfd == -1) {
         //error
         throw "Could not create a socket";
     }
-    this->socketfd = socketfd;
+    this->socketfd = socketFd;
     //bind socket to IP address
     // we first need to create the sockaddr obj.
     sockaddr_in address; //in means IP4
@@ -216,13 +210,13 @@ void OpenServerCommand::openSocketServer() {
         std::cout<<"Server is now listening ..."<<std::endl;
     }
     // accepting a client
-    int client_socket = accept(socketfd, (struct sockaddr *)&address,
+    int clientSocket = accept(socketfd, (struct sockaddr *)&address,
                                (socklen_t*)&address);
-    if (client_socket == -1) {
+    if (clientSocket == -1) {
         throw "Error accepting client";
     }
 
-    this->client_socket = client_socket;
+    this->client_socket = clientSocket;
 }
 OpenServerCommand::~OpenServerCommand() {
     cout<<"enter to disServer"<<endl;

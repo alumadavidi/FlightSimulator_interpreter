@@ -2,7 +2,6 @@
 // Created by magshimim on 12.12.2019.
 //
 #include "ProgVariables.h"
-#include "Command/Command.h"
 #include "Data.h"
 
 ProgVariables::ProgVariables(string sim, string direction) {

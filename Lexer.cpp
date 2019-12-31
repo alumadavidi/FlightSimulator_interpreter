@@ -28,7 +28,7 @@ void Lexer::spliteLineToToken(vector<string>* wordsToken, string& lineToRead){
     string word = "";
     int counter = 0;
     //parser letter by letter
-    for (int i = 0; i < lineToRead.length(); i++) {
+    for (int i = 0; (unsigned int) i < lineToRead.length(); i++) {
         if(lineToRead[i] == '('){
             counter++;
             i++;

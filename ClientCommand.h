@@ -14,7 +14,7 @@
 #include <netinet/in.h>
 #include <cstring>
 #include "queue"
-#include "../Parser.h"
+#include "Parser.h"
 
 using namespace std;
 class ConnectCommand : public command {

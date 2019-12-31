@@ -1,5 +1,5 @@
 //
-// Created by user on 20/12/2019.
+// DataBase of program
 //
 
 #include "Data.h"

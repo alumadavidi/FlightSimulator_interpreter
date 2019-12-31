@@ -13,12 +13,11 @@
 #include <mutex>
 #include <condition_variable>
 #include <queue>
-#include "Command/Command.h"
+#include "Command.h"
 #include "ProgVariables.h"
 #include "ProgramInclude.h"
 
-
-#define NUM_VARIABLE_XML 36
+//define of XML variabels
 #define V1 "/instrumentation/airspeed-indicator/indicated-speed-kt"
 #define V2 "/sim/time/warp"
 #define V3 "/controls/switches/magnetos"

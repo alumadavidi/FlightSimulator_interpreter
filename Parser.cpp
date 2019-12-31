@@ -15,7 +15,6 @@ void Parser::parser(string& fileName) {
     while(Data::stopLoopServer || Data::stopLoopClient){
         sleep(1);
     }
-//    sleep(30);
 }
 void Parser::parserByTokens(vector<string> &spliteToken) {
     int index = 0;
@@ -52,7 +51,6 @@ int Parser::updateVar() {
         return 0;
     }
     string key = *Data::it;
-    ProgVariables *var;
     Data::it++; //erase var
     Data::it++;//erase sign
     string left = *Data::it;
@@ -64,15 +62,13 @@ int Parser::updateVar() {
 //update value of variable air according shunting yard algo
 void Parser::updateValueInShuntingAlgo(const string & variable,const string & key) {
     string message;
-//    if (command::updateFinish) {
-//        command::mutexMessage.lock();
-        unordered_map<string, ProgVariables*>::iterator iter;
-        ProgVariables *var;
-        float num;
-        if (iter != Data::_progTable->find(key)) { // key in map
-            var = Data::_progTable->find(key)->second;
-        }
-        //get the result
+    unordered_map<string, ProgVariables*>::iterator iter;
+    ProgVariables *var;
+    float num;
+    if (iter != Data::_progTable->find(key)) { // key in map
+        var = Data::_progTable->find(key)->second;
+    }
+    //get the result
 
         num = generalShuntingAlgorithem(variable);
     var->setProgValue(num);
@@ -80,11 +76,6 @@ void Parser::updateValueInShuntingAlgo(const string & variable,const string & ke
         if(message.compare("") != 0){
             ConnectCommand::setMessageToSend(message);
         }
-//    }
-//    command::updateFinish = false;
-//    command::mutexMessage.unlock();
-
-
 }
 //general method to get num of variables
 float Parser::generalShuntingAlgorithem(const string& variable) {

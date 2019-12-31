@@ -16,14 +16,19 @@ int ConnectCommand::execute() {
     ++Data::it;
     _ip = (*Data::it).c_str();
     ++Data::it;
-    int numPort = Parser::generalShuntingAlgorithem(*Data::it);
-    _port = ((int)numPort);
-    ++Data::it;
-    //bind socket client
-    openSocketClient();
-    //send to server
-    startTherad();
-    return 3;
+    try {
+        int numPort = Parser::generalShuntingAlgorithem(*Data::it);
+        _port = ((int)numPort);
+        ++Data::it;
+        //bind socket client
+        openSocketClient();
+        //send to server
+        startTherad();
+        return 3;
+    } catch (const char* e){
+        throw "failed in parser algo in ConnectCommand::execute";
+    }
+
 }
 void ConnectCommand::writeClient() {
     string thisMessage;
@@ -59,7 +64,7 @@ void ConnectCommand::openSocketClient() {
     //We need to create a sockaddr obj to hold address of server
     sockaddr_in address; //in means IP4
     address.sin_family = AF_INET;//IP4
-    address.sin_addr.s_addr = inet_addr("127.0.0.1");  //the localhost address
+    address.sin_addr.s_addr = inet_addr(_ip);  //the localhost address
     address.sin_port = htons(_port);
     //we need to convert our number (both port & localhost)
     // to a number that the network understands.

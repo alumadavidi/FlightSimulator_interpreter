@@ -14,8 +14,8 @@
 #include <string>
 #include <unistd.h>
 #include <netinet/in.h>
-#include "../Parser.h"
-#include "../Data.h"
+#include "Parser.h"
+#include "Data.h"
 class holdCommands : public command { //should to be abstract?
 protected:
     int counter;
@@ -26,6 +26,7 @@ protected:
 class DefineVarCommand : public command {
 public:
     virtual int execute();
+    virtual ~DefineVarCommand(){}
 };
 
 class ConditionParser : public holdCommands {
@@ -35,8 +36,7 @@ protected:
     string _secondExp;
     void init();
     bool getCondition(string first, string op, string second);
-/*public:
-    virtual int execute();*/
+
 };
 
 class IfCommand : public ConditionParser {
@@ -47,6 +47,7 @@ public:
 class LoopCommand : public ConditionParser {
 public:
     virtual int execute();
+    virtual ~LoopCommand(){}
 };
 
 class FuncCommand : public holdCommands {
@@ -56,15 +57,18 @@ protected:
 public:
     virtual int execute();
     void activateFunc(string);
+    virtual ~FuncCommand(){}
 };
 
 class Print : public command {
 public:
     virtual int execute();
+    virtual ~Print(){}
 };
 
 class Sleep : public command {
 public:
     virtual int execute();
+    virtual ~Sleep(){}
 };
 #endif //UNTITLED11_COMMANDSCLASSES_H

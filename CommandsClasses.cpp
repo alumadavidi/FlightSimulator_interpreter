@@ -3,12 +3,11 @@
 //
 
 #include "CommandsClasses.h"
-#include <cstring>
-#include "stdlib.h"
+
 
 using namespace std;
+//Add new var to progTable map
 int DefineVarCommand::execute() {
-//    std::mutexGeneralSimVariable mutexGeneralSimVariable;
     int counterFunc;
     string sim = "", left = "";
     ++Data::it;//for command
@@ -26,23 +25,33 @@ int DefineVarCommand::execute() {
         ++Data::it;
         counterFunc = 5;
     }
-
+    //create new var
     ProgVariables* newVar = new ProgVariables(sim, direction);
     Data::_progTable->insert({key, newVar});  ///check the map
     if(newVar->getDirection() == "<-") {
         Data::_generalSimVariable->at(sim).second = newVar;
     }
     if (left.size() > 0) { // first opetion var x = y
-        Parser::updateValueInShuntingAlgo(left, key);
+        try {
+            Parser::updateValueInShuntingAlgo(left, key);
+        } catch (const char* e){
+            throw "failed in parser of DefineVarCommand::execute";
+        }
+
+
+
     }
 
     return counterFunc;
 }
+//Loop of methods by conditation
 int LoopCommand::execute() {
     int counterTemp = 0;
     Parser parser;
-    init(); //shared code to loop and if
-    _inCommands = getInsideCommend(); // get the inside of the loop to new vector
+    //shared code to loop and if
+    init();
+    // get the inside of the loop to new vector
+    _inCommands = getInsideCommend();
     vector<string>::iterator temp = Data::it;
     while(getCondition(_firstExp,_op,_secondExp)){
         vector<string> copyInCommands = _inCommands;//any time init the copy
@@ -53,11 +62,14 @@ int LoopCommand::execute() {
     counter = 0;
     return counterTemp;
 }
+//Do the method if the condition is true
 int IfCommand::execute() {
     int counterTemp;
     Parser parser;
-    init(); //shared code to loop and if
-    _inCommands = getInsideCommend(); // get the inside of the loop to new vector
+    //shared code to loop and if
+    init();
+    // get the inside of the loop to new vector
+    _inCommands = getInsideCommend();
     vector<string>::iterator temp = Data::it;
     if(getCondition(_firstExp,_op,_secondExp)){
         vector<string> copyInCommands = _inCommands;//any time init the copy
@@ -68,15 +80,18 @@ int IfCommand::execute() {
     counter = 0;
     return counterTemp;
 }
-int FuncCommand::execute() { //for funcion
+//initalize func and play func
+int FuncCommand::execute() {
     string funcName = *Data::it;
     ++Data::it;//func name
     counter++;
-    string temp = *Data::it;
-    if(temp.substr(0,3)!= "var") {
+    string tempString = *Data::it;
+    //the func is exist in map
+    if(tempString.substr(0,3)!= "var") {
         activateFunc(funcName);
     } else {
-        string var = temp.substr(4, temp.length() - 4);
+        //initalize new func and add to funcMap
+        string var = tempString.substr(4, tempString.length() - 4);
         Data::it++;
         counter ++;
         vector<string>* inCommand = new vector<string>();
@@ -91,8 +106,10 @@ int FuncCommand::execute() { //for funcion
     counter = 0;
     return counterTemp;
 }
+//play the func
 void FuncCommand::activateFunc(string funcName) {
     Parser parser;
+    //find the func in map
     vector<string> inCommands = *Data::_funcsMap->find(funcName)->second.second;
     string key = Data::_funcsMap->find(funcName)->second.first;
     ProgVariables* localVar = new ProgVariables("", "");
@@ -104,33 +121,46 @@ void FuncCommand::activateFunc(string funcName) {
     vector<string>::iterator tempIt = Data::it;
     parser.parserByTokens(inCommands);
     delete localVar;
+    //ersase local var
     Data::_progTable->erase(key);
     Data::it = tempIt;
 }
+//print to console
 int Print::execute() {
     ++Data::it;
     string toPrint = *Data::it;
     string name;
+    float varPrint;
     unordered_map<string, ProgVariables*>::iterator iter;
     ProgVariables *var;
     if(iter != Data::_progTable->find(toPrint)) { // print variable
         var = Data::_progTable->find(toPrint)->second;
         cout << var->calculate() << endl;
     } else {
-        cout << toPrint << endl;
+        try {
+            varPrint = Parser::generalShuntingAlgorithem(toPrint);
+            cout<<varPrint<<endl;
+        } catch(const char* e){
+            cout << toPrint << endl;
+        }
+
     }
     Data::it++;
     return 2;
 }
+//sleep the main thead for x miliseconds
 int Sleep::execute() {
+    float time;
     ++Data::it;
     string timeS = *(Data::it);
+    time = Parser::generalShuntingAlgorithem(timeS);
     std::string::size_type sz;   // convert string to long
-    long time = std::stol (timeS,&sz);
-    std::this_thread::sleep_for(std::chrono::milliseconds(time));
+//    long time = std::stol (timeS,&sz);
+    std::this_thread::sleep_for(std::chrono::milliseconds((long)time));
     ++Data::it;
     return 2;
 }
+//initalize the condition for loop and if command
 void ConditionParser::init() {
     Data::it++;
     _firstExp = *Data::it;
@@ -166,13 +196,18 @@ vector<string> holdCommands::getInsideCommend() {
         result.pop_back(); //for "}"
     return result;
 }
+//return true or false of condition
 bool ConditionParser::getCondition(string first, string op, string second) {
     bool result;
-    int resultNum = Parser::generalShuntingAlgorithem(first + op + second);
-    if(resultNum == 0){
-        result = false;
-    } else{
-        result = true;
+    try {
+        int resultNum = Parser::generalShuntingAlgorithem(first + op + second);
+        if (resultNum == 0) {
+            result = false;
+        } else {
+            result = true;
+        }
+        return result;
+    }  catch (const char* e){
+        throw "failed in parser algo in ConditionParser::getCondition";
     }
-    return result;
 }

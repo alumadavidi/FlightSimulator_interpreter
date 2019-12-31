@@ -3,8 +3,8 @@
 //
 
 #include "Interpeter.h"
-#include "../Command/Command.h"
-#include "../Data.h"
+#include "Command.h"
+#include "Data.h"
 
 
 Interpreter::Interpreter() {

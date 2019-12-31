@@ -5,10 +5,10 @@
 #ifndef UNTITLED11_PARSER_H
 #define UNTITLED11_PARSER_H
 #include "Lexer.h"
-#include "Command/Command.h"
-#include "Command/CommandsClasses.h"
-#include "ShuntingAlgorithm/Interpeter.h"
-#include "Command/ClientCommand.h"
+#include "Command.h"
+#include "CommandsClasses.h"
+#include "Interpeter.h"
+#include "ClientCommand.h"
 #include "Data.h"
 class Parser {
 public:

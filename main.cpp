@@ -1,5 +1,5 @@
-#include "ProgramInclude.h"
-#include "data.h"
+#include "Parser.h"
+
 int main(int argc, char **argv) {
     Parser parser;
     if(argc > 1){

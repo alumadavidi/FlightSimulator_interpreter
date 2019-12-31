@@ -3,7 +3,6 @@
 //
 
 #include "InitMaps.h"
-#include "../Data.h"
 
 //initalize the map with the command object
 void InitMap::initCommandsMap() {
@@ -15,15 +14,16 @@ void InitMap::initCommandsMap() {
     Data::_commandsMap->insert({"while",new LoopCommand()});
     Data::_commandsMap->insert({"Print",new Print()});
     Data::_commandsMap->insert({"Sleep",new Sleep()});
-
-    //TODO FUNC??
 }
+//initalize empty the progTable
 void InitMap::initProgTable() {
     Data::_progTable = new unordered_map<string, ProgVariables*>();
 }
+//initalize empty funcTable
 void InitMap::initfuncTable() {
     Data::_funcsMap = new unordered_map<string, pair<string,vector<string>*>>();
 }
+//initalize the map with GeneralSimVariable from the XML
 void InitMap::initGeneralSimVariable() {
     Data::_generalSimVariable = new unordered_map<string, pair<float, ProgVariables*>>();
     Data::_generalSimVariable->insert({V1,{0, nullptr}});

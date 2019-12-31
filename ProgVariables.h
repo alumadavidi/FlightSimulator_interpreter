@@ -5,12 +5,13 @@
 #ifndef UNTITLED11_VARIABLEAIR_H
 #define UNTITLED11_VARIABLEAIR_H
 
-#include "ShuntingAlgorithm/Expression.h"
+#include "Expression.h"
 #include <iostream>
 #include <string>
 #include <unordered_map>
-using namespace std;
 
+using namespace std;
+//Pattern of variable in program
 class ProgVariables : Expression {
 private:
     float _progValue;
