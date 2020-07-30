@@ -1,7 +1,7 @@
 # FlightSimulator_interpreter
 Interpreter flight simulator coding language, CPP.
 
-General Description:
+##General Description:
 In this task we were asked to deal with communication to FlightGear simulator (https://www.flightgear.org/) in order to activate it by code only. The program gets "fly.txt" file (given as an argument) that contain high language command to the simulator and interprets those command to code that get/sent data/instructions from/to the simulator. The program connect to the simulator both as client and as server.
 
 Features:
